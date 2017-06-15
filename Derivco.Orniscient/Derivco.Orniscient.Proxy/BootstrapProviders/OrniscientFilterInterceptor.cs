@@ -22,8 +22,13 @@ namespace Derivco.Orniscient.Proxy.BootstrapProviders
             _logger = providerRuntime.GetLogger(Name);
             OrniscientLinkMap.Instance.Init(_logger);
             _logger.Info("OrniscientFilterInterceptor started.");
-            providerRuntime.SetInvokeInterceptor((method, request, grain, invoker) =>
+            var innerInterceptor = providerRuntime.GetInvokeInterceptor();
+            providerRuntime.SetInvokeInterceptor(async (method, request, grain, invoker) =>
             {
+                if (innerInterceptor != null)
+                {
+                    await innerInterceptor(method, request, grain, invoker);
+                }
                 if (!(grain is IFilterableGrain) ||
                     _grainsWhereTimerWasRegistered.Contains(((Grain)grain).IdentityString))
                 {
