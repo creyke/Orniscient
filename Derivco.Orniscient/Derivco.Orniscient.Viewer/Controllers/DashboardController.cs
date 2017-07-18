@@ -116,7 +116,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
 				try
 				{
 					var methodGrain = GrainClient.GrainFactory.GetGrain<IMethodInvocationGrain>(type);
-					var methodReturnData = await methodGrain.InvokeGrainMethod(id, methodId, parametersJson);
+					var methodReturnData = await methodGrain.InvokeGrainMethod(id, methodId, parametersJson, invokeOnNewGrain);
 					return Json(methodReturnData, JsonRequestBehavior.AllowGet);
 
 				}
