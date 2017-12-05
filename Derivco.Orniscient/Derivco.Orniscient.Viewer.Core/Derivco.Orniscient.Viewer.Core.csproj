@@ -1,0 +1,102 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Remove="wwwroot\Scripts\jquery-1.10.2.js" />
+    <Content Remove="wwwroot\Scripts\jquery-1.10.2.min.js" />
+    <Content Remove="wwwroot\Scripts\jquery-1.10.2.min.map" />
+    <Content Remove="wwwroot\Scripts\jquery.validate-vsdoc.js" />
+    <Content Remove="wwwroot\Scripts\jquery.validate.js" />
+    <Content Remove="wwwroot\Scripts\jquery.validate.min.js" />
+    <Content Remove="wwwroot\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Remove="wwwroot\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Remove="wwwroot\Scripts\modernizr-2.6.2.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\balls.svg" />
+    <Content Include="Content\img\derivco.png" />
+    <Content Include="Content\img\favicon.ico" />
+    <Content Include="Content\img\network\acceptDeleteIcon.png" />
+    <Content Include="Content\img\network\addNodeIcon.png" />
+    <Content Include="Content\img\network\backIcon.png" />
+    <Content Include="Content\img\network\connectIcon.png" />
+    <Content Include="Content\img\network\cross.png" />
+    <Content Include="Content\img\network\cross2.png" />
+    <Content Include="Content\img\network\deleteIcon.png" />
+    <Content Include="Content\img\network\downArrow.png" />
+    <Content Include="Content\img\network\editIcon.png" />
+    <Content Include="Content\img\network\leftArrow.png" />
+    <Content Include="Content\img\network\minus.png" />
+    <Content Include="Content\img\network\plus.png" />
+    <Content Include="Content\img\network\rightArrow.png" />
+    <Content Include="Content\img\network\upArrow.png" />
+    <Content Include="Content\img\network\zoomExtends.png" />
+    <Content Include="Content\img\timeline\delete.png" />
+    <Content Include="Content\react-select.css" />
+    <Content Include="Content\react-select.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\vis.css" />
+    <Content Include="Content\vis.min.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.0.0-alpha2-final" />
+    <PackageReference Include="Microsoft.Orleans.Core" Version="2.0.0-beta1" />
+    <PackageReference Include="React.AspNet" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="wwwroot\Scripts\bootstrap.js" />
+    <None Include="wwwroot\Scripts\bootstrap.min.js" />
+    <None Include="wwwroot\Scripts\Dashboard\Dashboard.jsx" />
+    <None Include="wwwroot\Scripts\Dashboard\DashboardGrainMethodParameters.jsx" />
+    <None Include="wwwroot\Scripts\Dashboard\DashboardGrainMethodReturnData.jsx" />
+    <None Include="wwwroot\Scripts\Dashboard\DashboardTypeCounts.jsx" />
+    <None Include="wwwroot\Scripts\Dashboard\DashboardTypeFilter.jsx" />
+    <None Include="wwwroot\Scripts\Dashboard\DashboardTypeFilterList.jsx" />
+    <None Include="wwwroot\Scripts\index.js" />
+    <None Include="wwwroot\Scripts\jquery.signalR-2.2.0.js" />
+    <None Include="wwwroot\Scripts\jquery.signalR-2.2.0.min.js" />
+    <None Include="wwwroot\Scripts\orniscient.js" />
+    <None Include="wwwroot\Scripts\orniscientutils.js" />
+    <None Include="wwwroot\Scripts\react-input-autosize.js" />
+    <None Include="wwwroot\Scripts\react-select.js" />
+    <None Include="wwwroot\Scripts\react-select.min.js" />
+    <None Include="wwwroot\Scripts\respond.js" />
+    <None Include="wwwroot\Scripts\respond.min.js" />
+    <None Include="wwwroot\Scripts\vis-network.min.js" />
+    <None Include="wwwroot\Scripts\vis.js" />
+    <None Include="wwwroot\Scripts\vis.map" />
+    <None Include="wwwroot\Scripts\vis.min.js" />
+    <None Include="wwwroot\Scripts\_references.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Derivco.Orniscient.Proxy.Core\Derivco.Orniscient.Proxy.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Derivco.Orniscient.Proxy", "Derivco.Orniscient.Proxy\Derivco.Orniscient.Proxy.csproj", "{72287681-2B57-4AFF-9E5A-1016017EB0B1}"
 EndProject
@@ -14,6 +14,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrains", "TestGrains\TestGrains.csproj", "{CF967DF5-6019-4996-8AF9-F47E530DF021}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Derivco.Orniscient.Proxy.Tests", "Derivco.Orniscient.Proxy.Tests\Derivco.Orniscient.Proxy.Tests.csproj", "{FA2C7D9A-3246-4766-92AA-7596004F1DC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derivco.Orniscient.Proxy.Core", "Derivco.Orniscient.Proxy.Core\Derivco.Orniscient.Proxy.Core.csproj", "{74441AF1-C232-4DC8-96C2-50132594E5C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derivco.Orniscient.Viewer.Core", "Derivco.Orniscient.Viewer.Core\Derivco.Orniscient.Viewer.Core.csproj", "{C5708891-2E32-46D8-B57A-805FDD0F9C96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derivco.Orniscient.Orleans", "Derivco.Orniscient.Orleans\Derivco.Orniscient.Orleans.csproj", "{90ADDB91-806D-4D60-ADB1-0D61759ED387}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGrains.Core", "TestGrains.Core\TestGrains.Core.csproj", "{B7B5439A-1B0A-4DD6-AB50-3D4C9042C779}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHost2.Core", "TestHost2.Core\TestHost2.Core.csproj", "{20BB6E93-18CD-4713-BE27-01EDABF0BE76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrains.Interfaces.Core", "TestGrains.Interfaces.Core\TestGrains.Interfaces.Core.csproj", "{BCC92BF7-2848-42DB-AB7C-577B3DBAAFCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrains.Model.Core", "TestGrains.Model.Core\TestGrains.Model.Core.csproj", "{80B916A7-84BC-4F8E-BB2E-2320BB352B08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,11 +59,40 @@ Global
 		{FA2C7D9A-3246-4766-92AA-7596004F1DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA2C7D9A-3246-4766-92AA-7596004F1DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA2C7D9A-3246-4766-92AA-7596004F1DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74441AF1-C232-4DC8-96C2-50132594E5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74441AF1-C232-4DC8-96C2-50132594E5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74441AF1-C232-4DC8-96C2-50132594E5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74441AF1-C232-4DC8-96C2-50132594E5C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5708891-2E32-46D8-B57A-805FDD0F9C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5708891-2E32-46D8-B57A-805FDD0F9C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5708891-2E32-46D8-B57A-805FDD0F9C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5708891-2E32-46D8-B57A-805FDD0F9C96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90ADDB91-806D-4D60-ADB1-0D61759ED387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90ADDB91-806D-4D60-ADB1-0D61759ED387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90ADDB91-806D-4D60-ADB1-0D61759ED387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90ADDB91-806D-4D60-ADB1-0D61759ED387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7B5439A-1B0A-4DD6-AB50-3D4C9042C779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7B5439A-1B0A-4DD6-AB50-3D4C9042C779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7B5439A-1B0A-4DD6-AB50-3D4C9042C779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7B5439A-1B0A-4DD6-AB50-3D4C9042C779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20BB6E93-18CD-4713-BE27-01EDABF0BE76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20BB6E93-18CD-4713-BE27-01EDABF0BE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20BB6E93-18CD-4713-BE27-01EDABF0BE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20BB6E93-18CD-4713-BE27-01EDABF0BE76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC92BF7-2848-42DB-AB7C-577B3DBAAFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC92BF7-2848-42DB-AB7C-577B3DBAAFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC92BF7-2848-42DB-AB7C-577B3DBAAFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC92BF7-2848-42DB-AB7C-577B3DBAAFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80B916A7-84BC-4F8E-BB2E-2320BB352B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80B916A7-84BC-4F8E-BB2E-2320BB352B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80B916A7-84BC-4F8E-BB2E-2320BB352B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80B916A7-84BC-4F8E-BB2E-2320BB352B08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9933F6B-7B06-4662-A1CA-1C12B362F9ED}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 	EndGlobalSection
 EndGlobal

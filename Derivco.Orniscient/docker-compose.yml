@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  derivco.orniscient.viewer.core:
+    image: derivco.orniscient.viewer.core
+    build:
+      context: ./Derivco.Orniscient.Viewer.Core
+      dockerfile: Dockerfile
