@@ -1,0 +1,10 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "respond": "1.4.2",
+    "react-select": "v1.1.0",
+    "signalr": "v2.2.2",
+    "vis": "v4.21.0"
+  }
+}

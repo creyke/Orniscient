@@ -4,12 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Hosting;
 using Orleans;
 using Orleans.Providers.Streams.SimpleMessageStream;
 using Orleans.Runtime.Configuration;
 
-namespace Derivco.Orniscient.Viewer.Clients
+namespace Derivco.Orniscient.Viewer.Core.Clients
 {
     public static class GrainClientMultiton
     {

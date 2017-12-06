@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Derivco.Orniscient.Viewer.Models.Connection
+namespace Derivco.Orniscient.Viewer.Core.Models.Connection
 {
     public class ConnectionInfo
     {

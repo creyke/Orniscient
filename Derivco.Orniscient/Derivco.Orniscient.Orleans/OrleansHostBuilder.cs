@@ -1,12 +1,15 @@
 ﻿using System.Globalization;
 using System.IO;
+using Derivco.Orniscient.Proxy.Grains;
+using Derivco.Orniscient.Proxy.Grains.Filters;
+using Derivco.Orniscient.Proxy.Interceptors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Runtime.Configuration;
-using TestGrains.Core.Grains;
-using TestGrains.Interfaces.Core.Grains;
+using TestProject.Grains;
 
 namespace Derivco.Orniscient.Orleans
 {
@@ -25,13 +28,19 @@ namespace Derivco.Orniscient.Orleans
             return new SiloHostBuilder()
                 .UseConfiguration(config)
                 .AddApplicationPartsFromReferences(typeof(InactiveGrain).Assembly)
+                .AddApplicationPartsFromReferences(typeof(TypeFilterGrain).Assembly)
+                .AddApplicationPartsFromReferences(typeof(FilterGrain).Assembly)
                 .ConfigureLogging(logging =>
                 {
                     logging.AddConsole();
                     logging.SetMinimumLevel(LogLevel.Error);
                 })
                 .ConfigureServices(
-                    services => services.AddSingleton<IConfiguration>(configuration))
+                    services =>
+                    {
+                        services.AddSingleton(configuration);
+                        services.AddGrainCallFilter<OrniscientFilterCallFilter>();
+                    })
                 .Build();
         }
     }

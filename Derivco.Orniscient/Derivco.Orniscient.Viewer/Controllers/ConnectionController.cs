@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
-using Derivco.Orniscient.Viewer.Clients;
-using Derivco.Orniscient.Viewer.Models.Connection;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+using Derivco.Orniscient.Viewer.Core.Models.Connection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Rest;
 
-namespace Derivco.Orniscient.Viewer.Controllers
+namespace Derivco.Orniscient.Viewer.Core.Controllers
 {
     public class ConnectionController : Controller
     {
@@ -20,7 +19,10 @@ namespace Derivco.Orniscient.Viewer.Controllers
         {
             try
             {
-                ValidateModel(connection);
+                if (!TryValidateModel(connection))
+                {
+                    throw new ValidationException();
+                }
 
                 return RedirectToAction("Index", "Dashboard", connection);
             }

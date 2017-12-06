@@ -1,28 +1,40 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy;
-using Derivco.Orniscient.Proxy.Filters;
-using Derivco.Orniscient.Proxy.Grains;
+using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Models;
-using Derivco.Orniscient.Viewer.Clients;
-using Derivco.Orniscient.Viewer.Hubs;
-using Microsoft.AspNet.SignalR;
-using Orleans;
+using Derivco.Orniscient.Proxy.Grains.Models.Filters;
+using Derivco.Orniscient.Viewer.Core.Clients;
+using Derivco.Orniscient.Viewer.Core.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Orleans.Streams;
 
-namespace Derivco.Orniscient.Viewer.Observers
+namespace Derivco.Orniscient.Viewer.Core.Observers
 {
     public class OrniscientObserver : IAsyncObserver<DiffModel>
     {
-		private static readonly Lazy<OrniscientObserver> LazyInstance = new Lazy<OrniscientObserver>(() => new OrniscientObserver());
         private static readonly Dictionary<string,StreamSubscriptionHandle<DiffModel>> StreamHandles = new Dictionary<string,StreamSubscriptionHandle<DiffModel>>();
 
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
-		public static OrniscientObserver Instance => LazyInstance.Value;
+
+        private static Hub _hub;
+
+        private static OrniscientObserver _orniscientObserverInstance;
+
+        public static void RegisterHub(Hub hub)
+        {
+            _orniscientObserverInstance = new OrniscientObserver(hub);
+        }
+
+        public static OrniscientObserver Instance => _orniscientObserverInstance;
+
+        private OrniscientObserver(Hub hub)
+        {
+            _hub = hub;
+        }
 
         public async Task<DiffModel> GetCurrentSnapshot(AppliedFilter filter, string grainSessionId)
         {
@@ -38,7 +50,7 @@ namespace Derivco.Orniscient.Viewer.Observers
         {
             if (item != null)
             {
-                GlobalHost.ConnectionManager.GetHubContext<OrniscientHub>().Clients.Group("userGroup").grainActivationChanged(item);
+                _hub.Clients.Group("userGroup").InvokeAsync("grainActivationChanged", item);
             }
             return Task.CompletedTask;
         }

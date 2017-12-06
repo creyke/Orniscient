@@ -1,4 +1,4 @@
-﻿namespace Derivco.Orniscient.Viewer.Models.Dashboard
+﻿namespace Derivco.Orniscient.Viewer.Core.Models.Dashboard
 {
     public class GetFiltersRequest
     {
