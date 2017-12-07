@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Derivco.Orniscient.Proxy.Grains.Interfaces\Derivco.Orniscient.Proxy.Grains.Interfaces.csproj" />
-    <ProjectReference Include="..\TestProject.Grains.Model\TestProject.Grains.Model.csproj" />
+    <ProjectReference Include="..\TestProject.Grains.Models\TestProject.Grains.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
 using TestProject.Grains.Interfaces;
-using TestProject.Grains.Model;
+using TestProject.Grains.Models;
 
 namespace TestProject.Grains
 {

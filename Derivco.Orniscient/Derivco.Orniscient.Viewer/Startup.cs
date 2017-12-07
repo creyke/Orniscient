@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Derivco.Orniscient.Viewer.Core.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,8 @@ namespace Derivco.Orniscient.Viewer.Core
 
             // Register the IConfiguration instance which MyOptions binds against.
             services.Configure<IConfiguration>(Configuration);
+
+            services.AddSignalR();
             
             services.AddMvc();
         }
@@ -61,6 +64,11 @@ namespace Derivco.Orniscient.Viewer.Core
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<OrniscientHub>("orniscientHub");
+            });
 
             app.UseMvc(routes =>
             {

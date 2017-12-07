@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orleans;
-using TestProject.Grains.Model;
+using TestProject.Grains.Models;
 
 namespace TestProject.Grains.Interfaces
 {

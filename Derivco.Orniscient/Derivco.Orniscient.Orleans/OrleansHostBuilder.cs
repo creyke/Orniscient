@@ -39,7 +39,7 @@ namespace Derivco.Orniscient.Orleans
                     services =>
                     {
                         services.AddSingleton(configuration);
-                        services.AddGrainCallFilter<OrniscientFilterCallFilter>();
+                       // services.AddGrainCallFilter<OrniscientFilterCallFilter>();
                     })
                 .Build();
         }

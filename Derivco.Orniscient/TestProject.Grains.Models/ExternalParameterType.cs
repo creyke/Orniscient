@@ -1,4 +1,4 @@
-﻿namespace TestProject.Grains.Model
+﻿namespace TestProject.Grains.Models
 {
     public class ExternalParameterType
     {
