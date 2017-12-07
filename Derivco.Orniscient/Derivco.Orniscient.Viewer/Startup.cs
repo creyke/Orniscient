@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using React.AspNet;
 
 namespace Derivco.Orniscient.Viewer.Core
 {
@@ -43,7 +44,11 @@ namespace Derivco.Orniscient.Viewer.Core
             // Register the IConfiguration instance which MyOptions binds against.
             services.Configure<IConfiguration>(Configuration);
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddSignalR();
+            
+            services.AddReact();
             
             services.AddMvc();
         }
@@ -61,14 +66,19 @@ namespace Derivco.Orniscient.Viewer.Core
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
-
-            app.UseAuthentication();
-
             app.UseSignalR(routes =>
             {
                 routes.MapHub<OrniscientHub>("orniscientHub");
             });
+
+            app.UseReact(config =>
+                config
+                    .SetReuseJavaScriptEngines(true)
+                    .SetUseDebugReact(true));
+
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
