@@ -4,22 +4,22 @@
 }
 <div id="dashboard" class="container-fluid" style="height: 100%"></div>
 @Html.ActionLink("Disconnect", "Disconnect", "Dashboard", new { @class = "disconnect-btn btn btn-primary" }) )
-@section scripts{
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/signalr/jquery.signalR.min.js"></script>
-    <script src="~/js/orniscient.js"></script>
-	<script src="~/js/orniscientutils.js"></script>
 
-    <script src="~/lib/classnames/index.js"></script>
-    <script src="~/lib/react-input-autosize/dist/react-input-autosize.js"></script>
-    <script src="~/lib/react-select/dist/react-select.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/signalr/jquery.signalR.min.js"></script>
+<script src="~/js/orniscient.js"></script>
+<script src="~/js/orniscientutils.js"></script>
+
+<script src="~/lib/classnames/index.js"></script>
+<script src="~/lib/react-input-autosize/dist/react-input-autosize.js"></script>
+<script src="~/lib/react-select/dist/react-select.js"></script>
     
-    <script src="~/js/Dashboard/DashboardTypeCounts.jsx"></script>
-    <script src="~/js/Dashboard/DashboardTypeFilter.jsx"></script>
-    <script src="~/js/Dashboard/DashboardTypeFilterList.jsx"></script>
-    <script src="~/js/Dashboard/DashboardGrainMethodParameters.jsx"></script>
-    <script src="~/js/Dashboard/DashboardGrainMethodReturnData.jsx"></script>
-    <script src="~/js/Dashboard/Dashboard.jsx"></script>
-}
+<script src="~/js/Dashboard/DashboardTypeCounts.jsx"></script>
+<script src="~/js/Dashboard/DashboardTypeFilter.jsx"></script>
+<script src="~/js/Dashboard/DashboardTypeFilterList.jsx"></script>
+<script src="~/js/Dashboard/DashboardGrainMethodParameters.jsx"></script>
+<script src="~/js/Dashboard/DashboardGrainMethodReturnData.jsx"></script>
+<script src="~/js/Dashboard/Dashboard.jsx"></script>
+
 <!-- Render the code to initialise the component -->
 @Html.ReactInitJavaScript();
