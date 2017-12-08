@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Derivco.Orniscient.Viewer
@@ -7,21 +8,16 @@ namespace Derivco.Orniscient.Viewer
     {
         public static void Main(string[] args)
         {
-            StartKestrelWebHost();
+            BuildWebHost(args).Run();
         }
 
-        private static void StartKestrelWebHost()
-        {
-            var host = new WebHostBuilder()
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .UseUrls("http://*:80")
+                .UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .Build();
-
-            host.Run();
-        }
     }
 }

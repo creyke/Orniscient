@@ -40,12 +40,12 @@ namespace Derivco.Orniscient.Viewer
             // Register the IConfiguration instance which MyOptions binds against.
             services.Configure<IConfiguration>(Configuration);
 
-            services.AddSignalR();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddSignalR();
+
             services.AddReact();
-            
+
             services.AddMvc();
         }
 

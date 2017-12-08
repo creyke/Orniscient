@@ -35,6 +35,7 @@
     "commit": "7931695e25466801d50eec6e3f70843c6996f8e2"
   },
   "_source": "https://github.com/JedWatson/react-input-autosize.git",
-  "_target": "^2.0.1",
-  "_originalSource": "react-input-autosize"
+  "_target": "v2.1.2",
+  "_originalSource": "react-input-autosize",
+  "_direct": true
 }

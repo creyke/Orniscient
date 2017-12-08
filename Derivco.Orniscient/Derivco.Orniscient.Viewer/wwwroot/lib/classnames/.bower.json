@@ -41,6 +41,7 @@
     "commit": "ca2b848bc236e702b10cb63eef367a877eddb3b5"
   },
   "_source": "https://github.com/JedWatson/classnames.git",
-  "_target": "^2.2.0",
-  "_originalSource": "classnames"
+  "_target": "v2.2.5",
+  "_originalSource": "classnames",
+  "_direct": true
 }
