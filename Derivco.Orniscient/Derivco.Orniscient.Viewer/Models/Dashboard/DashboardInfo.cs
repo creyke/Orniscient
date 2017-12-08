@@ -1,6 +1,6 @@
 ﻿using Derivco.Orniscient.Proxy.Grains.Models;
 
-namespace Derivco.Orniscient.Viewer.Core.Models.Dashboard
+namespace Derivco.Orniscient.Viewer.Models.Dashboard
 {
     public class DashboardInfo
     {

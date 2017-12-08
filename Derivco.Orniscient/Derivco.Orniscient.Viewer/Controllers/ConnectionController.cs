@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Derivco.Orniscient.Viewer.Core.Models.Connection;
+using Derivco.Orniscient.Viewer.Models.Connection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Rest;
 
-namespace Derivco.Orniscient.Viewer.Core.Controllers
+namespace Derivco.Orniscient.Viewer.Controllers
 {
     public class ConnectionController : Controller
     {

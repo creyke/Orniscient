@@ -3,11 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
-using Derivco.Orniscient.Viewer.Core.Observers;
-using Microsoft.AspNetCore.Hosting.Internal;
+using Derivco.Orniscient.Viewer.Observers;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Derivco.Orniscient.Viewer.Core.Hubs
+namespace Derivco.Orniscient.Viewer.Hubs
 {
     public class OrniscientHub : Hub
     {

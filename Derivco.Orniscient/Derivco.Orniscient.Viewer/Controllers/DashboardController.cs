@@ -7,19 +7,15 @@ using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models;
-using Derivco.Orniscient.Viewer.Core.Clients;
-using Derivco.Orniscient.Viewer.Core.Hubs;
-using Derivco.Orniscient.Viewer.Core.Models.Dashboard;
-using Derivco.Orniscient.Viewer.Core.Observers;
+using Derivco.Orniscient.Viewer.Clients;
+using Derivco.Orniscient.Viewer.Models.Dashboard;
+using Derivco.Orniscient.Viewer.Observers;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols;
-using ConnectionInfo = Derivco.Orniscient.Viewer.Core.Models.Connection.ConnectionInfo;
+using ConnectionInfo = Derivco.Orniscient.Viewer.Models.Connection.ConnectionInfo;
 
-namespace Derivco.Orniscient.Viewer.Core.Controllers
+namespace Derivco.Orniscient.Viewer.Controllers
 {
     public class DashboardController : Controller
     {

@@ -8,7 +8,7 @@ using Orleans;
 using Orleans.Providers.Streams.SimpleMessageStream;
 using Orleans.Runtime.Configuration;
 
-namespace Derivco.Orniscient.Viewer.Core.Clients
+namespace Derivco.Orniscient.Viewer.Clients
 {
     public static class GrainClientMultiton
     {

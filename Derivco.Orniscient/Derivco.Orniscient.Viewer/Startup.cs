@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Derivco.Orniscient.Viewer.Core.Hubs;
+﻿using Derivco.Orniscient.Viewer.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
 
-namespace Derivco.Orniscient.Viewer.Core
+namespace Derivco.Orniscient.Viewer
 {
     public class Startup
     {
@@ -44,10 +40,10 @@ namespace Derivco.Orniscient.Viewer.Core
             // Register the IConfiguration instance which MyOptions binds against.
             services.Configure<IConfiguration>(Configuration);
 
+            services.AddSignalR();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSignalR();
-            
             services.AddReact();
             
             services.AddMvc();

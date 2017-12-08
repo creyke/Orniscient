@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy;
 using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
-using Derivco.Orniscient.Viewer.Core.Clients;
-using Derivco.Orniscient.Viewer.Core.Hubs;
+using Derivco.Orniscient.Viewer.Clients;
 using Microsoft.AspNetCore.SignalR;
 using Orleans.Streams;
 
-namespace Derivco.Orniscient.Viewer.Core.Observers
+namespace Derivco.Orniscient.Viewer.Observers
 {
     public class OrniscientObserver : IAsyncObserver<DiffModel>
     {

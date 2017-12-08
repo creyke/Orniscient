@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Grains.Interfac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Silo", "TestProject.Silo\TestProject.Silo.csproj", "{64FE7528-A7DC-4828-8C0E-413512D41D98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derivco.Orniscient.Viewer.Core", "Derivco.Orniscient.Viewer\Derivco.Orniscient.Viewer.Core.csproj", "{492472B7-CE42-4992-92AC-BCD1F6050980}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derivco.Orniscient.Viewer", "Derivco.Orniscient.Viewer\Derivco.Orniscient.Viewer.csproj", "{492472B7-CE42-4992-92AC-BCD1F6050980}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Grains.Models", "TestProject.Grains.Models\TestProject.Grains.Models.csproj", "{B03700D8-7188-4B64-9F0B-C952AB221990}"
 EndProject
@@ -80,7 +80,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 		SolutionGuid = {D9933F6B-7B06-4662-A1CA-1C12B362F9ED}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 	EndGlobalSection
 EndGlobal

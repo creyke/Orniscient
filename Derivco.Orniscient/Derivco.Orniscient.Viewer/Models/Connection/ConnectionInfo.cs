@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Derivco.Orniscient.Viewer.Core.Models.Connection
+namespace Derivco.Orniscient.Viewer.Models.Connection
 {
     public class ConnectionInfo
     {
