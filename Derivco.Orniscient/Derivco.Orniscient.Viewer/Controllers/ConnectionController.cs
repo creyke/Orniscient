@@ -14,7 +14,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(ConnectionInfo connection)
+        public ActionResult Index(ConnectionInfo connection)
         {
             try
             {

@@ -113,7 +113,7 @@ namespace Derivco.Orniscient.Proxy.Grains
 						}));
 				}
 			}
-			return TaskDone.Done;
+			return Task.CompletedTask;
 		}
 
 		private IGrain GetGrainReference(string id, GrainMethod method)
