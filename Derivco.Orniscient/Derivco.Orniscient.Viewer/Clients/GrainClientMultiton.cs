@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Derivco.Orniscient.Orleans;
 using Orleans;
 using Orleans.Providers.Streams.SimpleMessageStream;
 using Orleans.Runtime.Configuration;
@@ -39,14 +40,14 @@ namespace Derivco.Orniscient.Viewer.Clients
             return _clients[key];
         }
 
-        public static string RegisterClient(string address, int port)
+        public static async Task<string> RegisterClient(string address, int port)
         {
             var grainClientKey = Guid.NewGuid().ToString();
             _semaphoreSlim.Wait();
             try
             {
-                _clients.Add(grainClientKey,
-                    new ClientBuilder().UseConfiguration(GetConfiguration(address, port)).Build());
+                var client = await new OrleansClientBuilder().CreateOrleansClientAsync(GetConfiguration(address, port));
+                _clients.Add(grainClientKey,client);
             }
             finally
             {

@@ -62,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Derivco.Orniscient.Orleans\Derivco.Orniscient.Orleans.csproj" />
     <ProjectReference Include="..\Derivco.Orniscient.Proxy\Derivco.Orniscient.Proxy.csproj" />
   </ItemGroup>
 

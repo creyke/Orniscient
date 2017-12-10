@@ -13,14 +13,13 @@ namespace Derivco.Orniscient.Orleans
 {
     public class OrleansClientBuilder
     {
-        public async Task<IClusterClient> CreateOrleansClientAsync(int retryAttempts = 5)
+        public async Task<IClusterClient> CreateOrleansClientAsync(ClientConfiguration configuration, int retryAttempts = 5)
         {
             var attempt = 0;
             while (true)
             {
                 try
                 {
-                    var configuration = ClientConfiguration.LoadFromFile(".\\DevTestClientConfiguration.xml");
                     //TODO: Further investigation needed for their assembly scanning logic - needed for every grain, or one grain within that namespace?
                     var client = new ClientBuilder()
                         .UseConfiguration(configuration)

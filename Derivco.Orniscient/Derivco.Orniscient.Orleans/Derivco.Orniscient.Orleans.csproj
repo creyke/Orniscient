@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Derivco.Orniscient.Proxy.Grains.Interfaces\Derivco.Orniscient.Proxy.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\Derivco.Orniscient.Proxy.Grains\Derivco.Orniscient.Proxy.Grains.csproj" />
-    <ProjectReference Include="..\Derivco.Orniscient.Proxy\Derivco.Orniscient.Proxy.csproj" />
     <ProjectReference Include="..\TestProject.Grains.Interfaces\TestProject.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\TestProject.Grains\TestProject.Grains.csproj" />
   </ItemGroup>

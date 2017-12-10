@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Orleans;
 using Microsoft.Extensions.Configuration;
+using Orleans.Runtime.Configuration;
 using TestProject.Grains.Interfaces;
 
 namespace TestProject.Silo
@@ -30,7 +31,8 @@ namespace TestProject.Silo
 
         private static async Task GrainClientWork()
         {
-            using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync())
+            var configuration = ClientConfiguration.LoadFromFile(".\\DevTestClientConfiguration.xml");
+            using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(configuration))
             {
                 try
                 {

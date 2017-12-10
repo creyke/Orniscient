@@ -47,7 +47,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
 
                 if(!HttpContext.User.Identity.IsAuthenticated)
                 {
-                    var grainSessionIdKey = GrainClientMultiton.RegisterClient(connection.Address, connection.Port);
+                    var grainSessionIdKey = await GrainClientMultiton.RegisterClient(connection.Address, connection.Port);
                     var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
                         new List<Claim>
                         {
