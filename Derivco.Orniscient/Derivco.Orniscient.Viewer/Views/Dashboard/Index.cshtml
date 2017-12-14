@@ -3,8 +3,7 @@
 }
 <div id="dashboard" class="container-fluid" style="height: 100%"></div>
 @Html.ActionLink("Disconnect", "Disconnect", "Dashboard", new { @class = "disconnect-btn btn btn-primary" })
-@section scripts
-    {
+@section scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/SignalR/signalr-client-1.0.0-alpha2-final.js"></script>
     <script src="~/js/orniscient.js"></script>
@@ -18,12 +17,13 @@
 
     <script src="~/js/react-select.js"></script>
 
-    <script src="~/js/Dashboard/DashboardTypeCounts.jsx" type="text/babel"></script>
-    <script src="~/js/Dashboard/DashboardTypeFilter.jsx" type="text/babel"></script>
-    <script src="~/js/Dashboard/DashboardTypeFilterList.jsx" type="text/babel"></script>
-    <script src="~/js/Dashboard/DashboardGrainMethodParameters.jsx" type="text/babel"></script>
-    <script src="~/js/Dashboard/DashboardGrainMethodReturnData.jsx" type="text/babel"></script>
-    <script src="~/js/Dashboard/Dashboard.jsx" type="text/babel"></script>
+    <script src="~/js/Dashboard/DashboardTypeCounts.jsx"></script>
+    <script src="~/js/Dashboard/DashboardTypeFilter.jsx"></script>
+    <script src="~/js/Dashboard/DashboardTypeFilterList.jsx"></script>
+    <script src="~/js/Dashboard/DashboardGrainMethodParameters.jsx"></script>
+    <script src="~/js/Dashboard/DashboardGrainMethodReturnData.jsx"></script>
+    <script src="~/js/Dashboard/Dashboard.jsx"></script>
+    <!-- Render the code to initialise the component -->
+    @Html.ReactInitJavaScript();
 }
-<!-- Render the code to initialise the component -->
-@Html.ReactInitJavaScript()
+

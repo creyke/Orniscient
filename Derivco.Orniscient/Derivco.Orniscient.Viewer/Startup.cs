@@ -61,6 +61,12 @@ namespace Derivco.Orniscient.Viewer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseReact(config =>
+                config
+                    .SetReuseJavaScriptEngines(true)
+                    .SetUseDebugReact(true));
+
             app.UseStaticFiles();
             app.UseFileServer();
 
@@ -68,11 +74,6 @@ namespace Derivco.Orniscient.Viewer
             {
                 routes.MapHub<OrniscientHub>("orniscientHub");
             });
-
-            app.UseReact(config =>
-                config
-                    .SetReuseJavaScriptEngines(true)
-                    .SetUseDebugReact(true));
 
 
             app.UseAuthentication();
