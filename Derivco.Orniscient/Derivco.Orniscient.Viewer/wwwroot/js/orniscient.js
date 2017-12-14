@@ -58,10 +58,10 @@
         $.extend(orniscientConnection.HttpClient, { grainActivationChanged: grainActivationChanged });
 
         orniscientConnection.start()
-        .then(init())
-        .catch(err => {
-            console.log('connection error');
-        });
+            .then(() => init())
+            .catch(err => {
+                console.log('connection error');
+            });
     };
 
     orniscient.getServerData = function getServerData(filter) {
