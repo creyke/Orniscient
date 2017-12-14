@@ -35,7 +35,7 @@ namespace Derivco.Orniscient.Viewer
             services.AddOptions();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o => o.LoginPath = new PathString("/login"));
+                .AddCookie();
 
             // Register the IConfiguration instance which MyOptions binds against.
             services.Configure<IConfiguration>(Configuration);
@@ -61,6 +61,8 @@ namespace Derivco.Orniscient.Viewer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseStaticFiles();
+            app.UseFileServer();
 
             app.UseSignalR(routes =>
             {
@@ -72,7 +74,6 @@ namespace Derivco.Orniscient.Viewer
                     .SetReuseJavaScriptEngines(true)
                     .SetUseDebugReact(true));
 
-            app.UseStaticFiles();
 
             app.UseAuthentication();
 

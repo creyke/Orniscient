@@ -1,7 +1,7 @@
 ﻿
 (function (orniscient, $, undefined) {
 
-    var hub = $.connection.orniscientHub,
+    var orniscientConnection,
         nodes = new vis.DataSet([]),
         edges = new vis.DataSet([]),
         container,
@@ -36,29 +36,33 @@
         edges: edges
     };
 
-    orniscient.summaryView = function () {return summaryView;}
+    orniscient.summaryView = function () { return summaryView; }
 
-    orniscient.init = function () {
+    orniscient.init = function() {
         console.log('orniscient.init was called');
         container = document.getElementById('mynetwork');
         var network = new vis.Network(container, orniscient.data, options);
         network.on("hoverNode", onHover);
-        network.on('selectNode', function (params) {
-            //this is where we will set id for grain details menu.
-            window.dispatchEvent(new CustomEvent('nodeSelected', { detail: nodes.get(params.nodes)[0] }));
-        });
-        network.on('deselectNode', function () {
-			window.dispatchEvent(new Event('nodeDeselected'));
-        });
+        network.on('selectNode',
+            function(params) {
+                //this is where we will set id for grain details menu.
+                window.dispatchEvent(new CustomEvent('nodeSelected', { detail: nodes.get(params.nodes)[0] }));
+            });
+        network.on('deselectNode',
+            function() {
+                window.dispatchEvent(new Event('nodeDeselected'));
+            });
 
-        $.extend(hub.client, {grainActivationChanged: grainActivationChanged});
-        $.connection.hub.logging = true;
-        $.connection.hub.error(function (error) {
-            console.log('SignalR error: ' + error);
+        orniscientConnection = new signalR.HubConnection("/orniscientHub");
+
+        $.extend(orniscientConnection.HttpClient, { grainActivationChanged: grainActivationChanged });
+
+        orniscientConnection.start()
+        .then(init())
+        .catch(err => {
+            console.log('connection error');
         });
-        $.connection.hub.qs = { 'id': getParameterByName('id') };
-        $.connection.hub.start().then(init);
-    }
+    };
 
     orniscient.getServerData = function getServerData(filter) {
         summaryView = false; //need to reset the summary view here.
@@ -69,8 +73,8 @@
         if (filter === null)
             filter = {};
 
-        return hub.server.GetCurrentSnapshot(filter)
-            .done(function (data) {
+        return orniscientConnection.invoke("GetCurrentSnapshot", filter)
+            .then(function (data) {
                 $.each(data.NewGrains, function (index, grainData) {
                     addToNodes(grainData, data.SummaryView);
                 });
@@ -80,7 +84,7 @@
                 }
 
             })
-            .fail(function (data) {
+            .catch(function (data) {
                 alert('Oops, we cannot connect to the server...');
             });
     }
@@ -92,7 +96,7 @@
     function addToNodes(grainData, isSummaryView) {
         var nodeLabel = (isSummaryView ? grainData.TypeShortName + '(' + grainData.Count + ')' : grainData.GrainName);
         if (isSummaryView === true) {
-            if (summaryView === false && isSummaryView===true) {
+            if (summaryView === false && isSummaryView === true) {
                 orniscient.data.nodes.clear();
                 orniscient.data.edges.clear();
                 summaryView = true;
@@ -100,7 +104,7 @@
 
             //find and update 
             var updateNode = orniscient.data.nodes.get(grainData.Id);
-            if (updateNode !== undefined) {
+            if (updateNode != undefined) {
                 updateNode.label = nodeLabel;
                 updateNode.value = grainData.Count;
                 orniscient.data.nodes.update(updateNode);
@@ -135,7 +139,7 @@
                     id: grainData.TypeShortName + '_' + grainData.GrainId + 'temp',
                     from: grainData.TypeShortName + '_' + grainData.GrainId,
                     to: grainData.LinkToId,
-                    label:""
+                    label: ""
                 });
             }
         }
@@ -146,9 +150,9 @@
         $.each(links, function (index, link) {
             var linkId = (link.FromId + '_' + link.ToId).replace(/[^\w]/gi, '.');
             var updateEdge = orniscient.data.edges.get(linkId);
-            if (updateEdge !== undefined) {
+            if (updateEdge != undefined) {
                 updateEdge.value = link.Count;
-                updateEdge.label= link.Count;
+                updateEdge.label = link.Count;
                 orniscient.data.edges.update(updateEdge);
             } else {
                 orniscient.data.edges.add({
@@ -156,7 +160,7 @@
                     from: link.FromId,
                     to: link.ToId,
                     value: link.Count,
-                    label : link.Count
+                    label: link.Count
                 });
             }
         });
@@ -193,7 +197,7 @@
                 infoRows = infoRows + "<tr><td><strong>Silo</strong></td><td>" + node.silo + "</td></tr>";
                 infoRows = infoRows + "<tr><td><strong>Grain Type</strong></td><td>" + node.graintype + "</td></tr>";
 
-                if (xhr.responseText !== null && xhr.responseText !== "") {
+                if (xhr.responseText != null && xhr.responseText !== "") {
                     grainInfo = JSON.parse(xhr.responseText);
                     for (var i = 0; i < grainInfo.length; i++) {
                         infoRows = infoRows + "<tr><td><strong>" + grainInfo[i].FilterName + "<strong></td><td>" + grainInfo[i].Value + "</td></tr>";

@@ -6,40 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\img\balls.svg" />
-    <Content Include="Content\img\derivco.png" />
-    <Content Include="Content\img\favicon.ico" />
-    <Content Include="Content\img\network\acceptDeleteIcon.png" />
-    <Content Include="Content\img\network\addNodeIcon.png" />
-    <Content Include="Content\img\network\backIcon.png" />
-    <Content Include="Content\img\network\connectIcon.png" />
-    <Content Include="Content\img\network\cross.png" />
-    <Content Include="Content\img\network\cross2.png" />
-    <Content Include="Content\img\network\deleteIcon.png" />
-    <Content Include="Content\img\network\downArrow.png" />
-    <Content Include="Content\img\network\editIcon.png" />
-    <Content Include="Content\img\network\leftArrow.png" />
-    <Content Include="Content\img\network\minus.png" />
-    <Content Include="Content\img\network\plus.png" />
-    <Content Include="Content\img\network\rightArrow.png" />
-    <Content Include="Content\img\network\upArrow.png" />
-    <Content Include="Content\img\network\zoomExtends.png" />
-    <Content Include="Content\img\timeline\delete.png" />
-    <Content Include="Content\react-select.css" />
-    <Content Include="Content\react-select.min.css" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Content\vis.css" />
-    <Content Include="Content\vis.min.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha2-final" />
     <PackageReference Include="Microsoft.Orleans.Core" Version="2.0.0-beta1" />
     <PackageReference Include="React.AspNet" Version="3.2.0" />
+    <PackageReference Include="React.Core" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +42,10 @@
     <Content Update="wwwroot\css\site.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\SignalR\" />
   </ItemGroup>
 
 </Project>

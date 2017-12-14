@@ -55,7 +55,8 @@ namespace Derivco.Orniscient.Viewer.Controllers
                             new Claim(PortTypeName, connection.Port.ToString()),
                             new Claim(GrainSessionIdTypeName, grainSessionIdKey)
                         }));
-                    await HttpContext.SignInAsync(claimsPrincipal);
+                    await HttpContext.SignInAsync(claimsPrincipal,new AuthenticationProperties{IsPersistent = true});
+                    HttpContext.Response.Cookies.Append(GrainSessionIdTypeName, grainSessionIdKey);
                 }
 
                 _allowMethodsInvocation = AllowMethodsInvocation();
@@ -87,6 +88,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
         {
             await CleanupClient();
             await HttpContext.SignOutAsync();
+            HttpContext.Response.Cookies.Delete(GrainSessionIdTypeName);
             return RedirectToAction("Index", "Connection");
         }
 
