@@ -8,10 +8,12 @@ using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Derivco.Orniscient.Viewer.Clients;
+using Derivco.Orniscient.Viewer.Hubs;
 using Derivco.Orniscient.Viewer.Models.Dashboard;
 using Derivco.Orniscient.Viewer.Observers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using ConnectionInfo = Derivco.Orniscient.Viewer.Models.Connection.ConnectionInfo;
 
@@ -24,6 +26,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
         private const string AddressTypeName = "Address";
         private static bool _allowMethodsInvocation;
         private readonly IConfiguration _configuration;
+        private readonly OrniscientObserver _observer;
 
         public DashboardController(IConfiguration configuration)
         {
@@ -94,10 +97,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
 
         private async Task CleanupClient()
         {
-            if (OrniscientObserver.Instance != null)
-            {
-                await OrniscientObserver.Instance.UnregisterGrainClient(GrainSessionId);
-            }
+            await _observer.UnregisterGrainClient(GrainSessionId);
             GrainClientMultiton.RemoveClient(GrainSessionId);
         }
 

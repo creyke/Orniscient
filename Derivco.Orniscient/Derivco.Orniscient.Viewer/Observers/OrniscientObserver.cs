@@ -7,6 +7,7 @@ using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
 using Derivco.Orniscient.Viewer.Clients;
+using Derivco.Orniscient.Viewer.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Orleans.Streams;
 
@@ -18,20 +19,11 @@ namespace Derivco.Orniscient.Viewer.Observers
 
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
 
-        private static Hub _hub;
+        private readonly IHubContext<OrniscientHub> _hubContext;
 
-        private static OrniscientObserver _orniscientObserverInstance;
-
-        public static void RegisterHub(Hub hub)
+        public OrniscientObserver(IHubContext<OrniscientHub> hubContext)
         {
-            _orniscientObserverInstance = new OrniscientObserver(hub);
-        }
-
-        public static OrniscientObserver Instance => _orniscientObserverInstance;
-
-        private OrniscientObserver(Hub hub)
-        {
-            _hub = hub;
+            _hubContext = hubContext;
         }
 
         public async Task<DiffModel> GetCurrentSnapshot(AppliedFilter filter, string grainSessionId)
@@ -48,7 +40,7 @@ namespace Derivco.Orniscient.Viewer.Observers
         {
             if (item != null)
             {
-                _hub.Clients.Group("userGroup").InvokeAsync("grainActivationChanged", item);
+                _hubContext.Clients.Group("userGroup").InvokeAsync("grainActivationChanged", item);
             }
             return Task.CompletedTask;
         }

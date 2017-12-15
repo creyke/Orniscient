@@ -43,8 +43,8 @@
 		xhr.onload = function () {
 			var data = JSON.parse(xhr.responseText);
 			this.setState({
-				silos: orniscientutils.stringArrToSelectOptions(data.Silos),
-				availableGrainTypes: orniscientutils.stringArrToFilterNames(data.AvailableTypes)
+				silos: orniscientutils.stringArrToSelectOptions(data.silos),
+				availableGrainTypes: orniscientutils.stringArrToFilterNames(data.availableTypes)
 			});
 		}.bind(this);
 		xhr.send();

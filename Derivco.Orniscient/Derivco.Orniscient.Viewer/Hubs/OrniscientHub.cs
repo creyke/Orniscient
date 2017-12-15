@@ -12,17 +12,19 @@ namespace Derivco.Orniscient.Viewer.Hubs
     public class OrniscientHub : Hub
     {
         private const string GrainSessionIdTypeName = "GrainSessionId";
+        private readonly OrniscientObserver _observer;
 
-        public OrniscientHub()
+        public OrniscientHub(OrniscientObserver observer)
         {
-            OrniscientObserver.RegisterHub(this);
+            _observer = observer;
         }
+
         public override async Task OnConnectedAsync()
         {
             await Groups.AddAsync(Context.ConnectionId, "userGroup");
             var httpContext = Context.Connection.GetHttpContext();
             var grainSessionId = httpContext.Request.Cookies.FirstOrDefault(x => x.Key == GrainSessionIdTypeName).Value;
-            await OrniscientObserver.Instance.RegisterGrainClient(grainSessionId);
+            await _observer.RegisterGrainClient(grainSessionId);
             await base.OnConnectedAsync();
         }
 
@@ -30,7 +32,7 @@ namespace Derivco.Orniscient.Viewer.Hubs
         {
             var httpContext = Context.Connection.GetHttpContext();
             var grainSessionId = httpContext.Request.Cookies.FirstOrDefault(x => x.Key == GrainSessionIdTypeName).Value;
-            await OrniscientObserver.Instance.UnregisterGrainClient(grainSessionId);
+            await _observer.UnregisterGrainClient(grainSessionId);
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -38,7 +40,7 @@ namespace Derivco.Orniscient.Viewer.Hubs
         {
             var httpContext = Context.Connection.GetHttpContext();
             var grainSessionId = httpContext.Request.Cookies.FirstOrDefault(x => x.Key == GrainSessionIdTypeName).Value;
-            return await OrniscientObserver.Instance.GetCurrentSnapshot(filter, grainSessionId);
+            return await _observer.GetCurrentSnapshot(filter, grainSessionId);
         }
     }
 }

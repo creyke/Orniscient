@@ -1,4 +1,5 @@
 ﻿using Derivco.Orniscient.Viewer.Hubs;
+using Derivco.Orniscient.Viewer.Observers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +44,8 @@ namespace Derivco.Orniscient.Viewer
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSignalR();
+            services.AddScoped<OrniscientHub>();
+            services.AddSingleton<OrniscientObserver>();
 
             services.AddReact();
 
