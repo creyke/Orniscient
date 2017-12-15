@@ -74,13 +74,13 @@
             filter = {};
 
         return orniscientConnection.invoke("GetCurrentSnapshot", filter)
-            .then(function (data) {
-                $.each(data.NewGrains, function (index, grainData) {
-                    addToNodes(grainData, data.SummaryView);
+            .then((data) => {
+                $.each(data.newGrains, function (index, grainData) {
+                    addToNodes(grainData, data.summaryView);
                 });
 
-                if (data.SummaryView === true) {
-                    addSummaryViewEdges(data.SummaryViewLinks);
+                if (data.summaryView === true) {
+                    addSummaryViewEdges(data.summaryViewLinks);
                 }
 
             })
@@ -94,7 +94,7 @@
     }
 
     function addToNodes(grainData, isSummaryView) {
-        var nodeLabel = (isSummaryView ? grainData.TypeShortName + '(' + grainData.Count + ')' : grainData.GrainName);
+        var nodeLabel = (isSummaryView ? grainData.typeShortName + '(' + grainData.count + ')' : grainData.grainName);
         if (isSummaryView === true) {
             if (summaryView === false && isSummaryView === true) {
                 orniscient.data.nodes.clear();
@@ -106,7 +106,7 @@
             var updateNode = orniscient.data.nodes.get(grainData.Id);
             if (updateNode != undefined) {
                 updateNode.label = nodeLabel;
-                updateNode.value = grainData.Count;
+                updateNode.value = grainData.count;
                 orniscient.data.nodes.update(updateNode);
                 return;
             }
