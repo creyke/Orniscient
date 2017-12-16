@@ -11,8 +11,8 @@
     orniscientutils.stringArrToFilterNames = function (arr) {
         return arr.map(function (obj) {
             return {
-                value: obj.FullName,
-                label: obj.ShortName
+                value: obj.fullName,
+                label: obj.shortName
             }
         });
     }
@@ -20,9 +20,9 @@
     orniscientutils.methodsToSelectOptions = function(arr) {
         return arr.map(function (obj) {
             return {
-                value: obj.MethodId,
-                label: obj.Name,
-                parameters: obj.Parameters
+                value: obj.methodId,
+                label: obj.name,
+                parameters: obj.parameters
             }
         });
     }

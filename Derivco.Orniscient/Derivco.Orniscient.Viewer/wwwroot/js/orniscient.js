@@ -103,7 +103,7 @@
             }
 
             //find and update 
-            var updateNode = orniscient.data.nodes.get(grainData.Id);
+            var updateNode = orniscient.data.nodes.get(grainData.id);
             if (updateNode != undefined) {
                 updateNode.label = nodeLabel;
                 updateNode.value = grainData.count;
@@ -113,20 +113,20 @@
         }
 
         var node = {
-            id: grainData.Id,
+            id: grainData.id,
             label: nodeLabel,
             color: {
-                border: grainData.Colour
+                border: grainData.colour
             },
             //border: grainData.Colour,
-            silo: grainData.Silo,
-            linkToId: grainData.LinkToId,
-            graintype: grainData.Type,
-            grainId: grainData.GrainId,
-            group: grainData.Silo
+            silo: grainData.silo,
+            linkToId: grainData.linkToId,
+            graintype: grainData.type,
+            grainId: grainData.grainId,
+            group: grainData.silo
         }
-        if (grainData.Count > 1 && isSummaryView === true) {
-            node.value = grainData.Count;
+        if (grainData.count > 1 && isSummaryView === true) {
+            node.value = grainData.count;
         }
 
         //add the node
@@ -134,11 +134,11 @@
 
         if (isSummaryView === false) {
             //add the edge (link)
-            if (grainData.LinkToId !== null && grainData.LinkToId !== '') {
+            if (grainData.linkToId !== null && grainData.linkToId !== '') {
                 orniscient.data.edges.add({
-                    id: grainData.TypeShortName + '_' + grainData.GrainId + 'temp',
-                    from: grainData.TypeShortName + '_' + grainData.GrainId,
-                    to: grainData.LinkToId,
+                    id: grainData.typeShortName + '_' + grainData.grainId + 'temp',
+                    from: grainData.typeShortName + '_' + grainData.grainId,
+                    to: grainData.linkToId,
                     label: ""
                 });
             }
@@ -148,19 +148,19 @@
     function addSummaryViewEdges(links) {
         orniscient.data.edges.clear();
         $.each(links, function (index, link) {
-            var linkId = (link.FromId + '_' + link.ToId).replace(/[^\w]/gi, '.');
+            var linkId = (link.fromId + '_' + link.toId).replace(/[^\w]/gi, '.');
             var updateEdge = orniscient.data.edges.get(linkId);
             if (updateEdge != undefined) {
-                updateEdge.value = link.Count;
-                updateEdge.label = link.Count;
+                updateEdge.value = link.count;
+                updateEdge.label = link.count;
                 orniscient.data.edges.update(updateEdge);
             } else {
                 orniscient.data.edges.add({
                     id: linkId,
-                    from: link.FromId,
-                    to: link.ToId,
-                    value: link.Count,
-                    label: link.Count
+                    from: link.fromId,
+                    to: link.toId,
+                    value: link.count,
+                    label: link.count
                 });
             }
         });
@@ -179,7 +179,7 @@
     function onHover(params) {
         //get the node's information from the server.
         var node = nodes.get(params.node);
-        if (node.ServerCalled !== true) {
+        if (node.serverCalled !== true) {
 
             var requestData = {
                 GrainType: node.graintype,
@@ -204,7 +204,7 @@
                     }
                 }
                 node.title = "<h5>" + node.label + "</h5><table class='table'>" + infoRows + "</table>";
-                node.ServerCalled = false; //TODO : Change this back
+                node.serverCalled = false; //TODO : Change this back
                 orniscient.data.nodes.update(node);
             }
             xhr.send(JSON.stringify(requestData));
@@ -212,13 +212,13 @@
     }
 
     function grainActivationChanged(diffModel) {
-        window.dispatchEvent(new CustomEvent('orniscientUpdated', { detail: diffModel.TypeCounts }));
-        $.each(diffModel.NewGrains, function (index, grainData) {
-            addToNodes(grainData, diffModel.SummaryView);
+        window.dispatchEvent(new CustomEvent('orniscientUpdated', { detail: diffModel.typeCounts }));
+        $.each(diffModel.newGrains, function (index, grainData) {
+            addToNodes(grainData, diffModel.summaryView);
         });
 
         if (diffModel.SummaryView === true) {
-            addSummaryViewEdges(diffModel.SummaryViewLinks);
+            addSummaryViewEdges(diffModel.summaryViewLinks);
         }
     }
 
