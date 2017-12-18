@@ -84,21 +84,18 @@
 		xhr.send(JSON.stringify(requestData));
 	},
 	getInfoForGrainType: function (grainType) {
-		var requestData = {
-			type: grainType
-		};
 		var xhr = new XMLHttpRequest();
 		xhr.open('post', orniscienturls.getInfoForGrainType, true);
 		xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 		xhr.onload = function () {
 			var data = JSON.parse(xhr.responseText);
 			this.setState({
-				availableMethodsForGrainType: orniscientutils.methodsToSelectOptions(data.Methods),
-				selectedGrainTypeGrainIds: orniscientutils.stringArrToSelectOptions(data.Ids),
-				selectedGrainTypeKeyType: data.KeyType
+				availableMethodsForGrainType: orniscientutils.methodsToSelectOptions(data.methods),
+				selectedGrainTypeGrainIds: orniscientutils.stringArrToSelectOptions(data.ids),
+				selectedGrainTypeKeyType: data.keyType
 			});
 		}.bind(this);
-		xhr.send(JSON.stringify(requestData));
+        xhr.send(JSON.stringify(grainType));
 	},
 	//Event handler
 	orniscientUpdated: function (grainTypeCounts) {
@@ -232,10 +229,6 @@
 		e.preventDefault();
 		var limit = this.state.summaryViewLimitTextInputValue;
 		if (!orniscientutils.isNullOrUndefined(limit)) {
-			var requestData = {
-				summaryViewLimit: limit
-			};
-
 			var xhr = new XMLHttpRequest();
 			xhr.open('post', orniscienturls.setSummaryViewLimit, true);
 			xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -243,7 +236,7 @@
 				this.searchButtonClicked(e);
 				this.forceUpdate();
 			}.bind(this);
-			xhr.send(JSON.stringify(requestData));
+            xhr.send(JSON.stringify(limit));
 		}
 	},
 	invokeGrainMethodButtonClicked: function (e) {
