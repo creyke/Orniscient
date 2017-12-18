@@ -28,9 +28,10 @@ namespace Derivco.Orniscient.Viewer.Controllers
         private readonly IConfiguration _configuration;
         private readonly OrniscientObserver _observer;
 
-        public DashboardController(IConfiguration configuration)
+        public DashboardController(IConfiguration configuration, OrniscientObserver observer)
         {
             _configuration = configuration;
+            _observer = observer;
         }
 
         public string GrainSessionId
