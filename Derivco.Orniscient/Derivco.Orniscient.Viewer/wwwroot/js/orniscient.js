@@ -104,7 +104,7 @@
 
             //find and update 
             var updateNode = orniscient.data.nodes.get(grainData.id);
-            if (updateNode != undefined) {
+            if (updateNode !== null && updateNode !== undefined) {
                 updateNode.label = nodeLabel;
                 updateNode.value = grainData.count;
                 orniscient.data.nodes.update(updateNode);
@@ -150,7 +150,7 @@
         $.each(links, function (index, link) {
             var linkId = (link.fromId + '_' + link.toId).replace(/[^\w]/gi, '.');
             var updateEdge = orniscient.data.edges.get(linkId);
-            if (updateEdge != undefined) {
+            if (updateEdge !== null && updateEdge !== undefined) {
                 updateEdge.value = link.count;
                 updateEdge.label = link.count;
                 orniscient.data.edges.update(updateEdge);
@@ -164,16 +164,6 @@
                 });
             }
         });
-    }
-
-    function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
     function onHover(params) {
@@ -197,7 +187,7 @@
                 infoRows = infoRows + "<tr><td><strong>Silo</strong></td><td>" + node.silo + "</td></tr>";
                 infoRows = infoRows + "<tr><td><strong>Grain Type</strong></td><td>" + node.graintype + "</td></tr>";
 
-                if (xhr.responseText != null && xhr.responseText !== "") {
+                if (xhr.responseText !== null && xhr.responseText !== "") {
                     grainInfo = JSON.parse(xhr.responseText);
                     for (var i = 0; i < grainInfo.length; i++) {
                         infoRows = infoRows + "<tr><td><strong>" + grainInfo[i].FilterName + "<strong></td><td>" + grainInfo[i].Value + "</td></tr>";
