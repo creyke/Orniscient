@@ -2,7 +2,7 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "react": "v15.6.1",
+    "react": "v15.0.2",
     "respond": "1.4.2",
     "vis": "v4.21.0",
     "classnames": "v2.2.5",
