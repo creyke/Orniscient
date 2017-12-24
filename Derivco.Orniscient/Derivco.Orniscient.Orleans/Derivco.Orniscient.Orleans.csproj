@@ -6,14 +6,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Orleans.Client" Version="2.0.0-beta1" />
-    <PackageReference Include="Microsoft.Orleans.Core" Version="2.0.0-beta1" />
-    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="2.0.0-beta1" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="2.0.0-beta3" />
+    <PackageReference Include="Microsoft.Orleans.Core" Version="2.0.0-beta3" />
+    <PackageReference Include="Microsoft.Orleans.OrleansRuntime" Version="2.0.0-beta3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Derivco.Orniscient.Proxy.Grains.Interfaces\Derivco.Orniscient.Proxy.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\Derivco.Orniscient.Proxy.Grains\Derivco.Orniscient.Proxy.Grains.csproj" />
+    <ProjectReference Include="..\Derivco.Orniscient.Proxy\Derivco.Orniscient.Proxy.csproj" />
     <ProjectReference Include="..\TestProject.Grains.Interfaces\TestProject.Grains.Interfaces.csproj" />
     <ProjectReference Include="..\TestProject.Grains\TestProject.Grains.csproj" />
   </ItemGroup>

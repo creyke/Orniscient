@@ -5,6 +5,7 @@ using Derivco.Orniscient.Proxy.Attributes;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Orleans;
 using Orleans.Runtime;
+using Microsoft.Extensions.Logging;
 
 namespace Derivco.Orniscient.Proxy
 {
@@ -13,7 +14,7 @@ namespace Derivco.Orniscient.Proxy
         private static readonly Lazy<OrniscientLinkMap> _instance = new Lazy<OrniscientLinkMap>(() => new OrniscientLinkMap());
         private Dictionary<Type, OrniscientGrainAttribute> _typeMap;
 
-        public void Init(Logger _logger)
+        public void Init(ILogger _logger)
         {
             Logger = _logger;
             if (_typeMap == null)
@@ -22,7 +23,7 @@ namespace Derivco.Orniscient.Proxy
             }
         }
 
-        public Logger Logger { get; set; }
+        public ILogger Logger { get; set; }
 
         private void CreateTypeMap()
         {

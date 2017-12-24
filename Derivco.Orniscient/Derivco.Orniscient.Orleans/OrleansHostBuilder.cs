@@ -1,15 +1,14 @@
-﻿using System.Globalization;
-using System.IO;
-using Derivco.Orniscient.Proxy.Grains;
+﻿using Derivco.Orniscient.Proxy.Grains;
 using Derivco.Orniscient.Proxy.Grains.Filters;
-using Derivco.Orniscient.Proxy.Interceptors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orleans.Configuration;
 using Orleans.Hosting;
+using Orleans.Configuration;
+using Orleans;
 using Orleans.Runtime.Configuration;
 using TestProject.Grains;
+using Derivco.Orniscient.Proxy.Interceptors;
 
 namespace Derivco.Orniscient.Orleans
 {
@@ -23,13 +22,16 @@ namespace Derivco.Orniscient.Orleans
             config.AddMemoryStorageProvider("Default");
             config.AddMemoryStorageProvider("PubSubStore");
             config.AddSimpleMessageStreamProvider("SMSProvider");
-            config.AddSimpleMessageStreamProvider("OrniscientSMSProvider");
-            //TODO: Further investigation needed for their assembly scanning logic - needed for every grain, or one grain within that namespace?
+            config.AddSimpleMessageStreamProvider("OrniscientSMSProvider");            
             return new SiloHostBuilder()
                 .UseConfiguration(config)
-                .AddApplicationPartsFromReferences(typeof(InactiveGrain).Assembly)
-                .AddApplicationPartsFromReferences(typeof(TypeFilterGrain).Assembly)
-                .AddApplicationPartsFromReferences(typeof(FilterGrain).Assembly)
+                .ConfigureApplicationParts(
+                    parts => parts
+                        .AddFromAppDomain()
+                        .AddApplicationPart(typeof(InactiveGrain).Assembly)
+                        .AddApplicationPart(typeof(TypeFilterGrain).Assembly)
+                        .AddApplicationPart(typeof(FilterGrain).Assembly)
+                )
                 .ConfigureLogging(logging =>
                 {
                     logging.AddConsole();
@@ -39,7 +41,7 @@ namespace Derivco.Orniscient.Orleans
                     services =>
                     {
                         services.AddSingleton(configuration);
-                        //services.AddGrainCallFilter<OrniscientFilterCallFilter>();
+                        services.AddGrainCallFilter<OrniscientFilterCallFilter>();
                     })
                 .Build();
         }

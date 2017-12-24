@@ -107,7 +107,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
             var clusterClient = await GrainClientMultiton.GetAndConnectClient(GrainSessionId);
             var dashboardCollectorGrain = clusterClient.GetGrain<IDashboardCollectorGrain>(Guid.Empty);
 
-		    var types = await dashboardCollectorGrain.GetGrainTypes();
+            var types = await dashboardCollectorGrain.GetGrainTypes();
 
 			var dashboardInfo = new DashboardInfo
 			{

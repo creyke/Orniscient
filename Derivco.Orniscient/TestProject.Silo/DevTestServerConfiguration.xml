@@ -5,9 +5,6 @@
     <SeedNode Address="localhost" Port="11111" />
     <Liveness LvenessEnabled="false"/>
     <Messaging ResponseTimeout="30s"/>
-    <BootstrapProviders>
-      <Provider Type="Derivco.Orniscient.Proxy.BootstrapProviders.OrniscientFilterInterceptor" Name="OrniscientFilterInterceptor" />
-    </BootstrapProviders>
   </Globals>
   <Defaults>
     <Networking Address="localhost" Port="11111" />

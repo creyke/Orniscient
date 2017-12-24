@@ -23,13 +23,16 @@ namespace Derivco.Orniscient.Proxy.Interceptors
         {
             _logger = logger;
             _grainFactory = grainFactory;
+
+            OrniscientLinkMap.Instance.Init(_logger);
         }
-        public async Task Invoke(IGrainCallContext context)
+
+        public Task Invoke(IGrainCallContext context)
         {
             if (!(context.Grain is IFilterableGrain) ||
                 _grainsWhereTimerWasRegistered.Contains(((Grain)context.Grain).IdentityString))
             {
-                await context.Invoke();
+                return context.Invoke();
             }
             var grainType = context.Grain.GetType();
             var dynamicMethod = grainType.GetMethod("RegisterTimer",
@@ -44,7 +47,7 @@ namespace Derivco.Orniscient.Proxy.Interceptors
 
             _grainsWhereTimerWasRegistered.Add(((Grain)context.Grain).IdentityString);
             _logger.LogInformation($"Currently we have {_grainsWhereTimerWasRegistered.Count} grains where timer was registered");
-            await context.Invoke();
+            return context.Invoke();
         }
 
         private Func<object, Task> GetTimerFunc(IGrainFactory grainFactory, IAddressable grain)

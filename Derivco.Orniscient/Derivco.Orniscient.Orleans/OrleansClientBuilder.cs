@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy.Grains;
 using Derivco.Orniscient.Proxy.Grains.Filters;
@@ -20,12 +19,15 @@ namespace Derivco.Orniscient.Orleans
             {
                 try
                 {
-                    //TODO: Further investigation needed for their assembly scanning logic - needed for every grain, or one grain within that namespace?
                     var client = new ClientBuilder()
                         .UseConfiguration(configuration)
-                        .AddApplicationPartsFromReferences(typeof(InactiveGrain).Assembly)
-                        .AddApplicationPartsFromReferences(typeof(TypeFilterGrain).Assembly)
-                        .AddApplicationPartsFromReferences(typeof(FilterGrain).Assembly)
+                        .ConfigureApplicationParts(
+                            parts => parts
+                                .AddFromAppDomain()
+                                .AddApplicationPart(typeof(InactiveGrain).Assembly)
+                                .AddApplicationPart(typeof(TypeFilterGrain).Assembly)
+                                .AddApplicationPart(typeof(FilterGrain).Assembly)
+                        )
                         .ConfigureLogging(logging => logging.AddConsole())
                         .Build();
                     await client.Connect();
