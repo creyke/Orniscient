@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models;
+using Derivco.Orniscient.Proxy.Grains.Models.Filters;
 using Derivco.Orniscient.Viewer.Clients;
 using Derivco.Orniscient.Viewer.Hubs;
 using Derivco.Orniscient.Viewer.Models.Dashboard;
@@ -67,7 +68,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
                 ViewBag.AllowMethodsInvocation = _allowMethodsInvocation;
                 return View();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("InitError");
             }
@@ -121,7 +122,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
 		public async Task<ActionResult> GetFilters([FromBody]GetFiltersRequest filtersRequest)
 		{
 			if (filtersRequest?.Types == null)
-				return null;
+				return Json(new List<GroupedTypeFilter>() { });
 
 		    var clusterClient = await GrainClientMultiton.GetAndConnectClient(GrainSessionId);
             var filterGrain = clusterClient.GetGrain<IFilterGrain>(Guid.Empty);
@@ -195,7 +196,7 @@ namespace Derivco.Orniscient.Viewer.Controllers
 					return Json(methodReturnData);
 
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					return new StatusCodeResult((int)HttpStatusCode.BadRequest);
 				}

@@ -36,7 +36,7 @@
         edges: edges
     };
 
-    orniscient.summaryView = function () { return summaryView; }
+    orniscient.summaryView = function () { return summaryView; };
 
     orniscient.init = function() {
         console.log('orniscient.init was called');
@@ -55,7 +55,7 @@
 
         orniscientConnection = new signalR.HubConnection("/orniscientHub");
 
-        $.extend(orniscientConnection.HttpClient, { grainActivationChanged: grainActivationChanged });
+        orniscientConnection.addMetod("grainActivationChanged", grainActivationChanged);
 
         orniscientConnection.start()
             .then(() => init())
@@ -87,14 +87,14 @@
             .catch(function (data) {
                 alert('Oops, we cannot connect to the server...');
             });
-    }
+    };
 
     function init() {
         return orniscient.getServerData();
     }
 
     function addToNodes(grainData, isSummaryView) {
-        var nodeLabel = (isSummaryView ? grainData.typeShortName + '(' + grainData.count + ')' : grainData.grainName);
+        var nodeLabel = isSummaryView ? grainData.typeShortName + '(' + grainData.count + ')' : grainData.grainName;
         if (isSummaryView === true) {
             if (summaryView === false && isSummaryView === true) {
                 orniscient.data.nodes.clear();
@@ -118,13 +118,13 @@
             color: {
                 border: grainData.colour
             },
-            //border: grainData.Colour,
             silo: grainData.silo,
             linkToId: grainData.linkToId,
             graintype: grainData.type,
             grainId: grainData.grainId,
             group: grainData.silo
-        }
+        };
+
         if (grainData.count > 1 && isSummaryView === true) {
             node.value = grainData.count;
         }
@@ -134,7 +134,7 @@
 
         if (isSummaryView === false) {
             //add the edge (link)
-            if (grainData.linkToId !== null && grainData.linkToId !== '') {
+            if (grainData.linkToId && grainData.linkToId !== '') {
                 orniscient.data.edges.add({
                     id: grainData.typeShortName + '_' + grainData.grainId + 'temp',
                     from: grainData.typeShortName + '_' + grainData.grainId,
@@ -187,16 +187,16 @@
                 infoRows = infoRows + "<tr><td><strong>Silo</strong></td><td>" + node.silo + "</td></tr>";
                 infoRows = infoRows + "<tr><td><strong>Grain Type</strong></td><td>" + node.graintype + "</td></tr>";
 
-                if (xhr.responseText !== null && xhr.responseText !== "") {
+                if (xhr.responseText && xhr.responseText !== "" && xhr.responseText !== "null") {
                     grainInfo = JSON.parse(xhr.responseText);
                     for (var i = 0; i < grainInfo.length; i++) {
-                        infoRows = infoRows + "<tr><td><strong>" + grainInfo[i].FilterName + "<strong></td><td>" + grainInfo[i].Value + "</td></tr>";
+                        infoRows = infoRows + "<tr><td><strong>" + grainInfo[i].filterName + "<strong></td><td>" + grainInfo[i].value + "</td></tr>";
                     }
                 }
                 node.title = "<h5>" + node.label + "</h5><table class='table'>" + infoRows + "</table>";
                 node.serverCalled = false; //TODO : Change this back
                 orniscient.data.nodes.update(node);
-            }
+            };
             xhr.send(JSON.stringify(requestData));
         }
     }
@@ -207,7 +207,7 @@
             addToNodes(grainData, diffModel.summaryView);
         });
 
-        if (diffModel.SummaryView === true) {
+        if (diffModel.summaryView === true) {
             addSummaryViewEdges(diffModel.summaryViewLinks);
         }
     }

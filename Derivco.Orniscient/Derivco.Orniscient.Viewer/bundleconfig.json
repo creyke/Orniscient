@@ -29,11 +29,8 @@
   {
     "outputFileName": "wwwroot/js/dash.min.js",
     "inputFiles": [
-      "wwwroot/js/respond.js",
-      "wwwroot/lib/vis/dist/vis.js",
-      "wwwroot/js/SignalR/signalr-clientES5-1.0.0-alpha2-final.js", //the bundler only works with ES5
-      "wwwroot/js/orniscient.js",
-      "wwwroot/js/orniscientutils.js"
+      "wwwroot/js/Respond/respond.js",
+      "wwwroot/js/Vis/vis.js"
     ],
     // Optionally specify minification options
     "minify": {

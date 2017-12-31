@@ -5,14 +5,18 @@
 <a href="@Url.Action("Disconnect", "Dashboard")" class="disconnect-btn btn btn-primary">Disconnect</a>
 @section scripts {
     <script src="~/js/dash.min.js"></script>
+    <script src="~/js/SignalR/signalr-client-1.0.0-alpha2-final.js"></script>
+
+    <script src="~/js/Orniscient/orniscient.js"></script>
+    <script src="~/js/Orniscient/orniscientutils.js"></script>
 
     <script src="~/lib/react/react.js"></script>
     <script src="~/lib/react/react-dom.js"></script>
 
     <!--These JS files cannot be minified and bundled-->
-    <script src="~/lib/classnames/index.js"></script>
-    <script src="~/js/react-input-autosize.js"></script>
-    <script src="~/js/react-select.js"></script>
+    <script src="~/js/Classnames/index.js"></script>
+    <script src="~/js/React-Input-Autosize/react-input-autosize.js"></script>
+    <script src="~/js/React-Select/react-select.js"></script>
 
     <script src="~/js/Dashboard/DashboardTypeCounts.jsx"></script>
     <script src="~/js/Dashboard/DashboardTypeFilter.jsx"></script>

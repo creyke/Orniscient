@@ -86,6 +86,7 @@ namespace Derivco.Orniscient.Viewer.Clients
                     GatewayProvider = ClientConfiguration.GatewayProviderType.Config
                 };
             configuration.Gateways.Add(ipEndpoint);
+            configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("SMSProvider");
             configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("OrniscientSMSProvider");
 
             return configuration;

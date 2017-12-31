@@ -31,8 +31,6 @@
     <None Include="wwwroot\js\Dashboard\DashboardTypeCounts.jsx" />
     <None Include="wwwroot\js\Dashboard\DashboardTypeFilter.jsx" />
     <None Include="wwwroot\js\Dashboard\DashboardTypeFilterList.jsx" />
-    <None Include="wwwroot\js\orniscient.js" />
-    <None Include="wwwroot\js\orniscientutils.js" />
   </ItemGroup>
 
   <ItemGroup>

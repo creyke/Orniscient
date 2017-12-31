@@ -408,7 +408,22 @@ class HubConnection {
             }
         }
     }
+    addMetod(methodname, thefunction) {
+        this.methods.set(methodname.toLowerCase(), thefunction)
+    }
     invokeClientMethod(invocationMessage) {
+        let method = this.methods.get(invocationMessage.target.toLowerCase());
+        if (method) {
+            method.apply(this, invocationMessage.arguments);
+            if (!invocationMessage.nonblocking) {
+                // TODO: send result back to the server?
+            }
+        }
+        else {
+            this.logger.log(ILogger_1.LogLevel.Warning, `No client method with the name '${invocationMessage.target}' found.`);
+        }
+    }
+    invokeClientMethods(invocationMessage) {
         let methods = this.methods.get(invocationMessage.target.toLowerCase());
         if (methods) {
             methods.forEach(m => m.apply(this, invocationMessage.arguments));

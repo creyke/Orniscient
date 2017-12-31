@@ -8,12 +8,12 @@
                 displayParameters = methodData.parameters.map(function (parameter) {
 
                     var inputElement = parameter.IsComplexType === true ?
-                                            (<textarea rows="5" className="form-control" id={parameter.Name} placeholder={parameter.Type}></textarea>) :
-                                            (<input type="text" className="form-control" id={parameter.Name} placeholder={parameter.Type}/>);
+                                            (<textarea rows="5" className="form-control" id={parameter.name} placeholder={parameter.type}></textarea>) :
+                                            (<input type="text" className="form-control" id={parameter.name} placeholder={parameter.type}/>);
 
                     return (
-                            <div className="" key={parameter.Name}>
-                                <label for="parameter" className="">{parameter.Name} : </label>
+                            <div className="" key={parameter.name}>
+                                <label for="parameter" className="">{parameter.name} : </label>
                                 {inputElement}
                             </div>
                             );

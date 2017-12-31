@@ -27,6 +27,7 @@ namespace Derivco.Orniscient.Orleans
                 .UseConfiguration(config)
                 .ConfigureApplicationParts(
                     parts => parts
+                    
                         .AddFromAppDomain()
                         .AddApplicationPart(typeof(InactiveGrain).Assembly)
                         .AddApplicationPart(typeof(TypeFilterGrain).Assembly)
