@@ -36,7 +36,7 @@ namespace TestProject.Silo
             {
                 try
                 {
-                    var firstGrain = grainClient.GetGrain<IFirstGrain>("Hello");
+                    var firstGrain = grainClient.GetGrain<IFirstGrain>("Hallo");
                     await firstGrain.KeepAlive();
                 }
                 catch (Exception e)

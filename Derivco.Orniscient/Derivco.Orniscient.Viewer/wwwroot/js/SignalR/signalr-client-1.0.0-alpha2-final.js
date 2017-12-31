@@ -408,7 +408,7 @@ class HubConnection {
             }
         }
     }
-    addMetod(methodname, thefunction) {
+    addMethod(methodname, thefunction) {
         this.methods.set(methodname.toLowerCase(), thefunction)
     }
     invokeClientMethod(invocationMessage) {

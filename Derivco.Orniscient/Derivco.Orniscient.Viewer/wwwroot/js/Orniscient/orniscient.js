@@ -55,7 +55,7 @@
 
         orniscientConnection = new signalR.HubConnection("/orniscientHub");
 
-        orniscientConnection.addMetod("grainActivationChanged", grainActivationChanged);
+        orniscientConnection.addMethod("grainActivationChanged", grainActivationChanged);
 
         orniscientConnection.start()
             .then(() => init())
