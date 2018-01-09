@@ -76,8 +76,8 @@
       <HintPath>..\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Orleans, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Orleans.Core.1.5.0\lib\net461\Orleans.dll</HintPath>
+    <Reference Include="Orleans, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Orleans.Core.1.5.3\lib\net461\Orleans.dll</HintPath>
     </Reference>
     <Reference Include="OrleansProviders, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Orleans.OrleansProviders.1.5.0\lib\net461\OrleansProviders.dll</HintPath>
