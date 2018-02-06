@@ -1,6 +1,8 @@
 ﻿using System;
-using Orleans;
-using IFirstGrain = TestGrains.Grains.IFirstGrain;
+using System.IO;
+using System.Reflection;
+using System.ServiceProcess;
+using Derivco.Orniscient.TestHost;
 
 namespace TestHost
 {
@@ -10,26 +12,17 @@ namespace TestHost
 
         static void Main(string[] args)
         {
-            // The Orleans silo environment is initialized in its own app domain in order to more
-            // closely emulate the distributed situation, when the client and the server cannot
-            // pass data via shared memory.
-            var hostDomain = AppDomain.CreateDomain("OrleansHost", null, new AppDomainSetup
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+
+            if (Environment.UserInteractive)
             {
-                AppDomainInitializer = InitSilo,
-                AppDomainInitializerArguments = args
-            });
-
-            GrainClient.Initialize("DevTestClientConfiguration.xml");
-            Console.WriteLine("Orleans Silo is running.\nPress Enter to terminate...");
-
-
-            //Now we need some test classes....
-            var firstGrain = GrainClient.GrainFactory.GetGrain<IFirstGrain>("Hallo");
-            firstGrain.KeepAlive();
-
-            Console.ReadLine();
-
-            hostDomain.DoCallBack(ShutdownSilo);
+                OrleansService.StartManually(args);
+            }
+            else
+            {
+                var servicesToRun = new ServiceBase[] { new OrleansService() };
+                ServiceBase.Run(servicesToRun);
+            }
         }
 
         private static void InitSilo(string[] args)
