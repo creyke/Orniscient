@@ -29,7 +29,7 @@ namespace Derivco.Orniscient.Proxy.Interceptors
 
         public Task Invoke(IGrainCallContext context)
         {
-            if (!(context.Grain is IFilterableGrain) ||
+            if (!(context.Grain is IFilterable) ||
                 _grainsWhereTimerWasRegistered.Contains(((Grain)context.Grain).IdentityString))
             {
                 return context.Invoke();
@@ -53,14 +53,15 @@ namespace Derivco.Orniscient.Proxy.Interceptors
         private Func<object, Task> GetTimerFunc(IGrainFactory grainFactory, IAddressable grain)
         {
             var grainName = grain.GetType().FullName;
+            var pKey = grain.GetPrimaryKey();
             return async o =>
             {
-                var filterableGrain = grain.AsReference<IFilterableGrain>();
+                var filterableGrain = grain as IFilterable;
                 var result = await filterableGrain.GetFilters();
                 if (result != null)
                 {
                     var filterGrain = grainFactory.GetGrain<ITypeFilterGrain>(grain.GetType().FullName);
-                    await filterGrain.RegisterFilter(grainName, filterableGrain.GetPrimaryKey().ToString(), result);
+                    await filterGrain.RegisterFilter(grainName, $"{pKey}", result);
 
                     var filterString = string.Join(",", result.Select(p => $"{p.FilterName} : {p.Value}"));
                     _logger.LogInformation($"Filters for grain [Type : {grainName}] [Id : {grain.GetPrimaryKey()}][Filter : {filterString}]");

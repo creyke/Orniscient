@@ -24,9 +24,9 @@ namespace Derivco.Orniscient.Viewer.Clients
         public static async Task<IClusterClient> GetAndConnectClient(string key)
         {
             await _semaphoreSlim.WaitAsync();
+            var client = GetClient(key);
             try
             {
-                var client = GetClient(key);
                 if (client != null && !client.IsInitialized)
                 {
                     await client.Connect();
@@ -37,7 +37,7 @@ namespace Derivco.Orniscient.Viewer.Clients
                 _semaphoreSlim.Release();
 
             }
-            return _clients[key];
+            return client;
         }
 
         public static async Task<string> RegisterClient(string address, int port)

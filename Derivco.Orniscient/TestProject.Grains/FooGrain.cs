@@ -13,7 +13,7 @@ using TestProject.Grains.Models;
 namespace TestProject.Grains
 {
     [OrniscientGrain(typeof(SubGrain), LinkType.SameId, "lightblue")]
-    public class FooGrain : Grain, IFooGrain, IFilterableGrain 
+    public class FooGrain : Grain, IFooGrain, IFilterable 
     {
         private FilterRow[] _filters;
 
@@ -27,7 +27,7 @@ namespace TestProject.Grains
                 new FilterRow {FilterName = "Sport", Value =sports[rand.Next(0,5)]},
                 new FilterRow {FilterName = "League", Value = "Some League Name"} //include the id here, just to see the difference
             };
-
+            Debug.WriteLine($"FooGrain started : {this.GetPrimaryKey()}");
             await base.OnActivateAsync();
         }
 
@@ -76,6 +76,12 @@ namespace TestProject.Grains
         public Task<FilterRow[]> GetFilters()
         {
             return Task.FromResult(_filters);
+        }
+
+        public override Task OnDeactivateAsync()
+        {
+            Debug.WriteLine("FooGrain Deactivated.");
+            return Task.CompletedTask;
         }
     }
 }
