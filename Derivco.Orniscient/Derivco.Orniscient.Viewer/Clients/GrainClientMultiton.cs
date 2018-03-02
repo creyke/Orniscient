@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Orleans;
@@ -76,16 +77,28 @@ namespace Derivco.Orniscient.Viewer.Clients
 
         private static ClientConfiguration GetConfiguration(string address, int port)
         {
-            var host = Dns.GetHostEntry(address);
-            var ipAddress = host.AddressList.Last();
-            var ipEndpoint = new IPEndPoint(ipAddress, port);
+            IPAddress[] hostAddressList;
+            if (!IPAddress.TryParse(address, out var ipAddress))
+            {
+                var host = Dns.GetHostEntry(address);
+                hostAddressList = host.AddressList;
+            }
+            else
+            {
+                hostAddressList = new[] { ipAddress };
+            }
 
             var configuration =
                 new ClientConfiguration
                 {
                     GatewayProvider = ClientConfiguration.GatewayProviderType.Config
                 };
-            configuration.Gateways.Add(ipEndpoint);
+
+            foreach (var hostAddress in hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork))
+            {
+                configuration.Gateways.Add(new IPEndPoint(hostAddress, port));
+            }
+
             configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("SMSProvider");
             configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("OrniscientSMSProvider");
 
