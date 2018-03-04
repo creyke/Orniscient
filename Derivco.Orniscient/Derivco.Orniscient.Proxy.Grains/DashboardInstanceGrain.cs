@@ -6,6 +6,7 @@ using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
+using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Core;
 using Orleans.Runtime;
@@ -17,17 +18,20 @@ namespace Derivco.Orniscient.Proxy.Grains
     {
         private IOrniscientLinkMap _orniscientLink;
 
-        public DashboardInstanceGrain()
-        { }
+        public DashboardInstanceGrain(ILogger logger)
+        {
+            _logger = logger;
+        }
 
-        internal DashboardInstanceGrain(IGrainIdentity identity, IGrainRuntime runtime, IOrniscientLinkMap orniscientLink) : base(identity, runtime)
+        internal DashboardInstanceGrain(ILogger logger, IGrainIdentity identity, IGrainRuntime runtime, IOrniscientLinkMap orniscientLink) : base(identity, runtime)
         {
             _orniscientLink = orniscientLink;
+            _logger = logger;
         }
 
         private IDashboardCollectorGrain _dashboardCollectorGrain;
         private AppliedFilter _currentFilter;
-        private Logger _logger;
+        private readonly ILogger _logger;
         private IStreamProvider _streamProvider;
 
         private int SessionId => (int)this.GetPrimaryKeyLong();
@@ -45,8 +49,7 @@ namespace Derivco.Orniscient.Proxy.Grains
             }
 
             await base.OnActivateAsync();
-            _logger = GetLogger("DashboardInstanceGrain");
-
+            
             _dashboardCollectorGrain = GrainFactory.GetGrain<IDashboardCollectorGrain>(Guid.Empty);
 
             _streamProvider = GetStreamProvider(StreamKeys.StreamProvider);
@@ -62,7 +65,7 @@ namespace Derivco.Orniscient.Proxy.Grains
             _currentFilter = filter;
             CurrentStats = await ApplyFilter(await _dashboardCollectorGrain.GetAll());
 
-            _logger.Verbose($"GetAll called DashboardInstance Grain [Id : {this.GetPrimaryKeyLong()}][CurrentStatsCount : {CurrentStats?.Count}]");
+            _logger.Trace($"GetAll called DashboardInstance Grain [Id : {this.GetPrimaryKeyLong()}][CurrentStatsCount : {CurrentStats?.Count}]");
 
             //if we are over the summaryViewLimit we need to keep the summary model details, then the counts will be updated every time new items are pushed here from the DashboardCollecterGrain/
             if (InSummaryMode)
@@ -95,7 +98,7 @@ namespace Derivco.Orniscient.Proxy.Grains
 
         private async Task<List<UpdateModel>> ApplyFilter(List<UpdateModel> grains = null)
         {
-            _logger.Verbose($"Applying filters");
+            _logger.Trace($"Applying filters");
             if (_currentFilter == null || grains == null)
                 return grains;
 
@@ -147,7 +150,7 @@ namespace Derivco.Orniscient.Proxy.Grains
 
         public async Task OnNextAsync(DiffModel item, StreamSequenceToken token = null)
         {
-            _logger.Verbose($"OnNextAsync called with {item.NewGrains.Count} new items");
+            _logger.Trace($"OnNextAsync called with {item.NewGrains.Count} new items");
 
             List<UpdateModel> previousSummary = null;
             if (InSummaryMode)

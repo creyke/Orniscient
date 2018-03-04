@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
+using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Core;
 using Orleans.Runtime;
@@ -11,21 +12,22 @@ namespace Derivco.Orniscient.Proxy.Grains.Filters
 {
     public class FilterGrain : Grain, IFilterGrain
     {
-		private Logger _logger;
+		private readonly ILogger _logger;
 		private List<TypeFilter> _filters;
 
-		public FilterGrain()
+		public FilterGrain(ILogger logger)
 	    {
+            _logger = logger;
 	    }
 
-	    internal FilterGrain(IGrainIdentity identity, IGrainRuntime runtime) : base(identity, runtime)
+	    internal FilterGrain(ILogger logger, IGrainIdentity identity, IGrainRuntime runtime) : base(identity, runtime)
 	    {
-	    }
+            _logger = logger;
+        }
 		
 
         public override async Task OnActivateAsync()
         {
-            _logger = GetLogger("FilterGrain");
             _filters = new List<TypeFilter>();
             await base.OnActivateAsync();
         }
@@ -78,7 +80,7 @@ namespace Derivco.Orniscient.Proxy.Grains.Filters
 
         public Task UpdateTypeFilters(string typeName, IEnumerable<FilterRow> filters)
         {
-            _logger.Verbose($"Filters Registered for Type Grain[{typeName}, Count : {filters.Count()}]");
+            _logger.Trace($"Filters Registered for Type Grain[{typeName}, Count : {filters.Count()}]");
             var typeFilter = _filters.FirstOrDefault(p => p.TypeName == typeName);
             if (typeFilter != null)
             {

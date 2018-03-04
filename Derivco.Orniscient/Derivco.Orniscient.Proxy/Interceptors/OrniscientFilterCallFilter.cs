@@ -14,7 +14,7 @@ using Orleans.Runtime;
 
 namespace Derivco.Orniscient.Proxy.Interceptors
 {
-    public class OrniscientFilterCallFilter : IGrainCallFilter
+    public class OrniscientFilterCallFilter : IIncomingGrainCallFilter
     {
         private readonly ILogger<OrniscientFilterCallFilter> _logger;
         private readonly IGrainFactory _grainFactory;

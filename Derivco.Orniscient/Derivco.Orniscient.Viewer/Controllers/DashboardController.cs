@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
@@ -78,10 +79,12 @@ namespace Derivco.Orniscient.Viewer.Controllers
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                var client = GrainClientMultiton.GetClient(GrainSessionId);
-                var gateway = client.Configuration.Gateways.First();
-                if (gateway.Address.ToString() != connection.Address ||
-                    gateway.Port != connection.Port)
+                var claimsIdentity = (ClaimsIdentity)Thread.CurrentPrincipal;
+                var addressClaim = claimsIdentity.Claims.First(x => x.Type == AddressTypeName);
+                var portClaim = claimsIdentity.Claims.First(x => x.Type == PortTypeName);
+                
+                if (addressClaim.Value != connection.Address ||
+                    portClaim.Value != connection.Port.ToString())
                 {
                     await CleanupClient();
                     await HttpContext.SignOutAsync();

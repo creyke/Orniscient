@@ -7,20 +7,26 @@ using Orleans;
 using Orleans.Runtime;
 using Orleans.Runtime.Configuration;
 using TestProject.Grains;
+using System.Net;
+using System.Collections.Generic;
+using System.Linq;
+using Orleans.Configuration;
 
 namespace Derivco.Orniscient.Orleans
 {
     public class OrleansClientBuilder
     {
-        public async Task<IClusterClient> CreateOrleansClientAsync(ClientConfiguration configuration, int retryAttempts = 5)
+        public async Task<IClusterClient> CreateOrleansClientAsync(IEnumerable<IPEndPoint> gatewayEndPointList, int retryAttempts = 5)
         {
             var attempt = 0;
             while (true)
             {
                 try
                 {
+                    var gatewayUriList = gatewayEndPointList.Select(x => x.ToGatewayUri()).ToList();
                     var client = new ClientBuilder()
-                        .UseConfiguration(configuration)
+                        .ConfigureCluster(options => options.ClusterId = "orniscientcluster")
+                        .UseStaticClustering(options => ((List<Uri>)options.Gateways).AddRange(gatewayUriList))
                         .ConfigureApplicationParts(
                             parts => parts
                                 .AddFromAppDomain()
