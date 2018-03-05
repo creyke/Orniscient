@@ -2,5 +2,7 @@
   "DashboardCollectorGrainTimerPeriods\"":"2, 6",
   "TypeFilterGrainTimerPeriods": "0, 1" ,
   "FirstGrainTimerPeriods": "0, 200" ,
-  "FirstGrainAddGrainsValue": "1"
+  "FirstGrainAddGrainsValue": "1",
+  "HostAddress": "127.0.0.1",
+  "HostPort" :  "40000"
 }

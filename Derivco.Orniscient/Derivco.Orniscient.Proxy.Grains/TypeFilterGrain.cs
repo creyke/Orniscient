@@ -6,6 +6,7 @@ using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models.Filters;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Core;
 using Orleans.Runtime;
@@ -15,9 +16,11 @@ namespace Derivco.Orniscient.Proxy.Grains
     public class TypeFilterGrain : Grain, ITypeFilterGrain
     {
         private readonly IConfiguration _configuration;
-        public TypeFilterGrain(IConfiguration configuration)
+        private readonly ILogger _logger;
+        public TypeFilterGrain(ILogger logger, IConfiguration configuration)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         internal TypeFilterGrain(IGrainIdentity identity, IGrainRuntime runtime)
@@ -27,11 +30,9 @@ namespace Derivco.Orniscient.Proxy.Grains
         }
 
         internal List<FilterRow> Filters;
-        private Logger _logger;
 
         public override Task OnActivateAsync()
         {
-            _logger = GetLogger("TypeFilterGrain");
             Filters = new List<FilterRow>();
 
             var configTimerPeriods = _configuration["TypeFilterGrainTimerPeriods"];
@@ -51,7 +52,7 @@ namespace Derivco.Orniscient.Proxy.Grains
         public Task RegisterFilter(string typeName, string grainId, FilterRow[] filters)
         {
             //will push to local state, then the timer will flush the state
-            _logger.Verbose($"Filters Registered for Grain[{typeName},Id:{grainId}][{string.Join(",", filters.Select(p => $"{p.FilterName} : {p.Value}"))}]");
+            _logger.Trace($"Filters Registered for Grain[{typeName},Id:{grainId}][{string.Join(",", filters.Select(p => $"{p.FilterName} : {p.Value}"))}]");
             filters.All(p =>
             {
                 p.GrainId = grainId;

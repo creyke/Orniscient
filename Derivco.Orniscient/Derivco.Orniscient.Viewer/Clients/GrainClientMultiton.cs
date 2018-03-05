@@ -28,7 +28,8 @@ namespace Derivco.Orniscient.Viewer.Clients
             _semaphoreSlim.Wait();
             try
             {
-                var client = await new OrleansClientBuilder().CreateOrleansClientAsync(GetConfiguration(address, port));
+                var ipEndPointList = GetIpAddressList(address).Select(ipAddress => new IPEndPoint(ipAddress, port));
+                var client = await new OrleansClientBuilder().CreateOrleansClientAsync(ipEndPointList);
                 _clients.Add(grainClientKey,client);
             }
             finally
@@ -56,7 +57,7 @@ namespace Derivco.Orniscient.Viewer.Clients
             }
         }
 
-        private static ClientConfiguration GetConfiguration(string address, int port)
+        private static IEnumerable<IPAddress> GetIpAddressList(string address)
         {
             IPAddress[] hostAddressList;
             if (!IPAddress.TryParse(address, out var ipAddress))
@@ -68,22 +69,7 @@ namespace Derivco.Orniscient.Viewer.Clients
             {
                 hostAddressList = new[] { ipAddress };
             }
-
-            var configuration =
-                new ClientConfiguration
-                {
-                    GatewayProvider = ClientConfiguration.GatewayProviderType.Config
-                };
-
-            foreach (var hostAddress in hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork))
-            {
-                configuration.Gateways.Add(new IPEndPoint(hostAddress, port));
-            }
-
-            configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("SMSProvider");
-            configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("OrniscientSMSProvider");
-
-            return configuration;
+            return hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork);
         }
     }
 }

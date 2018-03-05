@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Orleans;
 using Microsoft.Extensions.Configuration;
@@ -26,13 +27,13 @@ namespace TestProject.Silo
                 .Build(configuration)
                 .StartAsync();
 
-            await GrainClientWork();
+            await GrainClientWork(configuration);
         }
 
-        private static async Task GrainClientWork()
+        private static async Task GrainClientWork(IConfigurationRoot configuration)
         {
-            var configuration = ClientConfiguration.LoadFromFile(".\\DevTestClientConfiguration.xml");
-            using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(configuration))
+            var ipEndPoint = new IPEndPoint(IPAddress.Parse(configuration["HostAddress"]), int.Parse(configuration["HostPort"]));
+            using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(new[] {ipEndPoint}))
             {
                 try
                 {

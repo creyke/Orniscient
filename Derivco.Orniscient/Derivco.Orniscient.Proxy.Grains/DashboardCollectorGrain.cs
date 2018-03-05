@@ -6,6 +6,7 @@ using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Interfaces.Filters;
 using Derivco.Orniscient.Proxy.Grains.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Runtime;
 
@@ -17,12 +18,13 @@ namespace Derivco.Orniscient.Proxy.Grains
 
 		private IManagementGrain _managementGrain;
         private GrainType[] _filteredTypes;
-        private Logger _logger;
+        private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
 
-        public DashboardCollectorGrain(IConfiguration configuration)
+        public DashboardCollectorGrain(ILogger logger, IConfiguration configuration)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         public override async Task OnActivateAsync()
@@ -30,7 +32,6 @@ namespace Derivco.Orniscient.Proxy.Grains
             await base.OnActivateAsync();
 
 			_managementGrain = GrainFactory.GetGrain<IManagementGrain>(0);
-			_logger = GetLogger();
             CurrentStats = new List<UpdateModel>();
 
             await Hydrate();
@@ -101,13 +102,13 @@ namespace Derivco.Orniscient.Proxy.Grains
 		    //Update the CurrentStats with the latest.
 		    CurrentStats = newStats;
 
-		    _logger.Verbose($"Sending {diffModel.RemovedGrains?.Count} RemovedGrains from DashboardCollectorGrain");
-		    _logger.Verbose($"Sending {diffModel.NewGrains?.Count} NewGrains from DashboardCollectorGrain");
-		    _logger.Verbose($"Sending {diffModel.TypeCounts?.Count} TypeCounts from DashboardCollectorGrain");
+		    _logger.Trace($"Sending {diffModel.RemovedGrains?.Count} RemovedGrains from DashboardCollectorGrain");
+		    _logger.Trace($"Sending {diffModel.NewGrains?.Count} NewGrains from DashboardCollectorGrain");
+		    _logger.Trace($"Sending {diffModel.TypeCounts?.Count} TypeCounts from DashboardCollectorGrain");
 
 		    var streamProvider = GetStreamProvider(StreamKeys.StreamProvider);
 
-		    _logger.Verbose($"About to send the changes to the dashboardInstanceGrains");
+		    _logger.Trace($"About to send the changes to the dashboardInstanceGrains");
 		    var stream = streamProvider.GetStream<DiffModel>(Guid.Empty, StreamKeys.OrniscientChanges);
 		    await stream.OnNextAsync(diffModel);
 		    return diffModel;
@@ -170,14 +171,14 @@ namespace Derivco.Orniscient.Proxy.Grains
 
         private async Task<List<UpdateModel>> _GetAllFromCluster()
         {
-            _logger.Verbose("_GetAllFromCluster called");
+            _logger.Trace("_GetAllFromCluster called");
             var detailedStats = await _managementGrain.GetDetailedGrainStatistics(_filteredTypes?.Select(p => p.FullName).ToArray()); ;
             if (detailedStats != null && detailedStats.Any())
             {
-                _logger.Verbose($"_GetAllFromCluster called [{detailedStats.Length} items returned from ManagementGrain]");
+                _logger.Trace($"_GetAllFromCluster called [{detailedStats.Length} items returned from ManagementGrain]");
                 return detailedStats.Select(_FromGrainStat).OrderBy(s => s.TypeShortName).ToList();
             }
-            _logger.Verbose("_GetAllFromCluster called [nothing returned from ManagementGrain]");
+            _logger.Trace("_GetAllFromCluster called [nothing returned from ManagementGrain]");
             return null;
         }
     }

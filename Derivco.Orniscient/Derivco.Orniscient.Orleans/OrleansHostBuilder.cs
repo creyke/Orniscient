@@ -9,6 +9,7 @@ using Orleans;
 using Orleans.Runtime.Configuration;
 using TestProject.Grains;
 using Derivco.Orniscient.Proxy.Interceptors;
+using System.Net;
 
 namespace Derivco.Orniscient.Orleans
 {
@@ -16,15 +17,18 @@ namespace Derivco.Orniscient.Orleans
     {
         public ISiloHost Build(IConfiguration configuration)
         {
-            var config = ClusterConfiguration.LocalhostPrimarySilo();
-            config.LoadFromFile(".\\DevTestServerConfiguration.xml");
-            config.AddMemoryStorageProvider();
-            config.AddMemoryStorageProvider("Default");
-            config.AddMemoryStorageProvider("PubSubStore");
-            config.AddSimpleMessageStreamProvider("SMSProvider");
-            config.AddSimpleMessageStreamProvider("OrniscientSMSProvider");            
+            var siloPort = 11111;
+            int gatewayPort = 30000;
+            var siloAddress = IPAddress.Loopback;          
             return new SiloHostBuilder()
-                .UseConfiguration(config)
+                .Configure(options => options.ClusterId = "orniscientcluster")
+                .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
+                .ConfigureEndpoints(siloAddress, siloPort, gatewayPort)
+                .AddMemoryGrainStorageAsDefault()
+                .AddMemoryGrainStorage("Default")
+                .AddMemoryGrainStorage("PubSubStore")
+                .AddSimpleMessageStreamProvider("SMSProvider")
+                .AddSimpleMessageStreamProvider("OrniscientSMSProvider")
                 .ConfigureApplicationParts(
                     parts => parts
                     
@@ -42,7 +46,7 @@ namespace Derivco.Orniscient.Orleans
                     services =>
                     {
                         services.AddSingleton(configuration);
-                        services.AddGrainCallFilter<OrniscientFilterCallFilter>();
+                        services.AddIncomingGrainCallFilter<OrniscientFilterCallFilter>();
                     })
                 .Build();
         }
