@@ -10,6 +10,7 @@ using Orleans.Runtime.Configuration;
 using TestProject.Grains;
 using Derivco.Orniscient.Proxy.Interceptors;
 using System.Net;
+using Derivco.Orniscient.Proxy;
 
 namespace Derivco.Orniscient.Orleans
 {
@@ -28,7 +29,7 @@ namespace Derivco.Orniscient.Orleans
                 .AddMemoryGrainStorage("Default")
                 .AddMemoryGrainStorage("PubSubStore")
                 .AddSimpleMessageStreamProvider("SMSProvider")
-                .AddSimpleMessageStreamProvider("OrniscientSMSProvider")
+                .AddSimpleMessageStreamProvider(StreamKeys.StreamProvider)
                 .ConfigureApplicationParts(
                     parts => parts
 

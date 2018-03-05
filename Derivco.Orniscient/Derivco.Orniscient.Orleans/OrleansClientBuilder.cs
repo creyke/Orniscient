@@ -10,7 +10,9 @@ using TestProject.Grains;
 using System.Net;
 using System.Collections.Generic;
 using System.Linq;
+using Derivco.Orniscient.Proxy;
 using Orleans.Configuration;
+using Orleans.Hosting;
 
 namespace Derivco.Orniscient.Orleans
 {
@@ -35,6 +37,8 @@ namespace Derivco.Orniscient.Orleans
                                 .AddApplicationPart(typeof(FilterGrain).Assembly).WithReferences()
                         )
                         .ConfigureLogging(logging => logging.AddConsole())
+                        .AddSimpleMessageStreamProvider("SMSProvider")
+                        .AddSimpleMessageStreamProvider(StreamKeys.StreamProvider)
                         .Build();
                     await client.Connect();
                     Console.WriteLine("Successfully created, which has also connected to the silo host.");
