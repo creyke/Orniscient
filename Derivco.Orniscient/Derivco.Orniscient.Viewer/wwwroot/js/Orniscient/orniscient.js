@@ -38,18 +38,18 @@
 
     orniscient.summaryView = function () { return summaryView; };
 
-    orniscient.init = function() {
+    orniscient.init = function () {
         console.log('orniscient.init was called');
         container = document.getElementById('mynetwork');
         var network = new vis.Network(container, orniscient.data, options);
         network.on("hoverNode", onHover);
         network.on('selectNode',
-            function(params) {
+            function (params) {
                 //this is where we will set id for grain details menu.
                 window.dispatchEvent(new CustomEvent('nodeSelected', { detail: nodes.get(params.nodes)[0] }));
             });
         network.on('deselectNode',
-            function() {
+            function () {
                 window.dispatchEvent(new Event('nodeDeselected'));
             });
 
@@ -75,9 +75,10 @@
 
         return orniscientConnection.invoke("GetCurrentSnapshot", filter)
             .then((data) => {
-                $.each(data.newGrains, function (index, grainData) {
-                    addToNodes(grainData, data.summaryView);
-                });
+                $.each(data.newGrains,
+                    function (index, grainData) {
+                        addToNodes(grainData, data.summaryView);
+                    });
 
                 if (data.summaryView === true) {
                     addSummaryViewEdges(data.summaryViewLinks);
@@ -95,22 +96,21 @@
 
     function addToNodes(grainData, isSummaryView) {
         var nodeLabel = isSummaryView ? grainData.typeShortName + '(' + grainData.count + ')' : grainData.grainName;
-        if (isSummaryView === true) {
-            if (summaryView === false && isSummaryView === true) {
-                orniscient.data.nodes.clear();
-                orniscient.data.edges.clear();
-                summaryView = true;
-            }
-
-            //find and update 
-            var updateNode = orniscient.data.nodes.get(grainData.id);
-            if (updateNode !== null && updateNode !== undefined) {
-                updateNode.label = nodeLabel;
-                updateNode.value = grainData.count;
-                orniscient.data.nodes.update(updateNode);
-                return;
-            }
+        if (summaryView !== isSummaryView) {
+            orniscient.data.nodes.clear();
+            orniscient.data.edges.clear();
+            summaryView = isSummaryView;
         }
+
+        //find and update 
+        var updateNode = orniscient.data.nodes.get(grainData.id);
+        if (updateNode !== null && updateNode !== undefined) {
+            updateNode.label = nodeLabel;
+            updateNode.value = grainData.count;
+            orniscient.data.nodes.update(updateNode);
+            return;
+        }
+
 
         var node = {
             id: grainData.id,
@@ -142,6 +142,14 @@
                     label: ""
                 });
             }
+        }
+    }
+
+
+    function deleteNodes(grainData, isSummaryView) {
+        var nodeToDelete = orniscient.data.nodes.get(grainData);
+        if (nodeToDelete != undefined) {
+            orniscient.data.nodes.remove(nodeToDelete);
         }
     }
 
@@ -203,7 +211,11 @@
 
     function grainActivationChanged(diffModel) {
         window.dispatchEvent(new CustomEvent('orniscientUpdated', { detail: diffModel.typeCounts }));
-        $.each(diffModel.newGrains, function (index, grainData) {
+        $.each(diffModel.RemovedGrains, function (index, grainData) {
+            deleteNodes(grainData, diffModel.summaryView);
+        });
+
+        $.each(diffModel.NewGrains, function (index, grainData) {
             addToNodes(grainData, diffModel.summaryView);
         });
 
