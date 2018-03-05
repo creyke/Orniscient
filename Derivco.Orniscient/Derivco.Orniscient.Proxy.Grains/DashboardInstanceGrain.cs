@@ -18,12 +18,12 @@ namespace Derivco.Orniscient.Proxy.Grains
     {
         private IOrniscientLinkMap _orniscientLink;
 
-        public DashboardInstanceGrain(ILogger logger)
+        public DashboardInstanceGrain(ILogger<DashboardInstanceGrain> logger)
         {
             _logger = logger;
         }
 
-        internal DashboardInstanceGrain(ILogger logger, IGrainIdentity identity, IGrainRuntime runtime, IOrniscientLinkMap orniscientLink) : base(identity, runtime)
+        internal DashboardInstanceGrain(ILogger<DashboardInstanceGrain> logger, IGrainIdentity identity, IGrainRuntime runtime, IOrniscientLinkMap orniscientLink) : base(identity, runtime)
         {
             _orniscientLink = orniscientLink;
             _logger = logger;

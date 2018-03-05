@@ -1,9 +1,11 @@
-﻿using Derivco.Orniscient.Viewer.Hubs;
+﻿using System;
+using Derivco.Orniscient.Viewer.Hubs;
 using Derivco.Orniscient.Viewer.Observers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Sockets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using React.AspNet;
@@ -77,7 +79,6 @@ namespace Derivco.Orniscient.Viewer
             {
                 routes.MapHub<OrniscientHub>("orniscientHub");
             });
-
 
             app.UseAuthentication();
 

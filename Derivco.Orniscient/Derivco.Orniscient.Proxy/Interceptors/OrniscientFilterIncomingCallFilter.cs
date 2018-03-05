@@ -14,12 +14,12 @@ using Orleans.Runtime;
 
 namespace Derivco.Orniscient.Proxy.Interceptors
 {
-    public class OrniscientFilterCallFilter : IIncomingGrainCallFilter
+    public class OrniscientFilterIncomingCallFilter : IIncomingGrainCallFilter
     {
-        private readonly ILogger<OrniscientFilterCallFilter> _logger;
+        private readonly ILogger<OrniscientFilterIncomingCallFilter> _logger;
         private readonly IGrainFactory _grainFactory;
         private readonly List<string> _grainsWhereTimerWasRegistered = new List<string>();
-        public OrniscientFilterCallFilter(ILogger<OrniscientFilterCallFilter> logger, IGrainFactory grainFactory)
+        public OrniscientFilterIncomingCallFilter(ILogger<OrniscientFilterIncomingCallFilter> logger, IGrainFactory grainFactory)
         {
             _logger = logger;
             _grainFactory = grainFactory;
@@ -61,6 +61,7 @@ namespace Derivco.Orniscient.Proxy.Interceptors
                 if (result != null)
                 {
                     var filterGrain = grainFactory.GetGrain<ITypeFilterGrain>(grain.GetType().FullName);
+
                     await filterGrain.RegisterFilter(grainName, $"{pKey}", result);
 
                     var filterString = string.Join(",", result.Select(p => $"{p.FilterName} : {p.Value}"));

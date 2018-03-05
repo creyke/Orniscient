@@ -17,7 +17,7 @@ namespace Derivco.Orniscient.Proxy.Grains
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
-        public TypeFilterGrain(ILogger logger, IConfiguration configuration)
+        public TypeFilterGrain(ILogger<TypeFilterGrain> logger, IConfiguration configuration)
         {
             _configuration = configuration;
             _logger = logger;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Orleans;
 using Microsoft.Extensions.Configuration;
@@ -18,22 +20,39 @@ namespace TestProject.Silo
 
         private static async Task StartAndInvokeSiloHost()
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+            var hostConfiguration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())  
                 .AddJsonFile("orniscientHostConfiguration.json")
                 .Build();
 
+            var clientConfiguration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("orniscientClientConfiguration.json")
+                .Build();
+
             await new OrleansHostBuilder()
-                .Build(configuration)
+                .Build(hostConfiguration) 
                 .StartAsync();
 
-            await GrainClientWork(configuration);
+            await GrainClientWork(clientConfiguration);
         }
 
         private static async Task GrainClientWork(IConfigurationRoot configuration)
         {
-            var ipEndPoint = new IPEndPoint(IPAddress.Parse(configuration["HostAddress"]), int.Parse(configuration["HostPort"]));
-            using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(new[] {ipEndPoint}))
+            IPAddress[] hostAddressList;
+            var hostAddress = configuration["HostAddress"];
+            if (!IPAddress.TryParse(hostAddress, out var ipAddress))
+            {
+                var host = Dns.GetHostEntry(hostAddress);
+                hostAddressList = host.AddressList;
+            }
+            else
+            {
+                hostAddressList = new[] { ipAddress };
+            }
+            var ipEndPointList = hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(address => new IPEndPoint(address, int.Parse(configuration["Port"])));
+         
+            using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(ipEndPointList))
             {
                 try
                 {

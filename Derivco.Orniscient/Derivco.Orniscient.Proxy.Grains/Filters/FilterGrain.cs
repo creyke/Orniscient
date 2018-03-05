@@ -15,12 +15,12 @@ namespace Derivco.Orniscient.Proxy.Grains.Filters
 		private readonly ILogger _logger;
 		private List<TypeFilter> _filters;
 
-		public FilterGrain(ILogger logger)
+		public FilterGrain(ILogger<FilterGrain> logger)
 	    {
             _logger = logger;
 	    }
 
-	    internal FilterGrain(ILogger logger, IGrainIdentity identity, IGrainRuntime runtime) : base(identity, runtime)
+	    internal FilterGrain(ILogger<FilterGrain> logger, IGrainIdentity identity, IGrainRuntime runtime) : base(identity, runtime)
 	    {
             _logger = logger;
         }

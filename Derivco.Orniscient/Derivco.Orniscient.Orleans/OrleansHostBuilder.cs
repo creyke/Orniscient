@@ -17,8 +17,8 @@ namespace Derivco.Orniscient.Orleans
     {
         public ISiloHost Build(IConfiguration configuration)
         {
-            var siloPort = 11111;
-            int gatewayPort = 30000;
+            var siloPort = int.Parse(configuration["SiloPort"]);
+            var gatewayPort = int.Parse(configuration["GatewayPort"]);
             var siloAddress = IPAddress.Loopback;          
             return new SiloHostBuilder()
                 .Configure(options => options.ClusterId = "orniscientcluster")
@@ -31,11 +31,11 @@ namespace Derivco.Orniscient.Orleans
                 .AddSimpleMessageStreamProvider("OrniscientSMSProvider")
                 .ConfigureApplicationParts(
                     parts => parts
-                    
+
                         .AddFromAppDomain()
-                        .AddApplicationPart(typeof(InactiveGrain).Assembly)
-                        .AddApplicationPart(typeof(TypeFilterGrain).Assembly)
-                        .AddApplicationPart(typeof(FilterGrain).Assembly)
+                        .AddApplicationPart(typeof(InactiveGrain).Assembly).WithReferences()
+                        .AddApplicationPart(typeof(TypeFilterGrain).Assembly).WithReferences()
+                        .AddApplicationPart(typeof(FilterGrain).Assembly).WithReferences()
                 )
                 .ConfigureLogging(logging =>
                 {
@@ -46,8 +46,9 @@ namespace Derivco.Orniscient.Orleans
                     services =>
                     {
                         services.AddSingleton(configuration);
-                        services.AddIncomingGrainCallFilter<OrniscientFilterCallFilter>();
+                        services.AddIncomingGrainCallFilter<OrniscientFilterIncomingCallFilter>();
                     })
+
                 .Build();
         }
     }

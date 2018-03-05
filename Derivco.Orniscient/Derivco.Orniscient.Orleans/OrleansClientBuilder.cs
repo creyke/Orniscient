@@ -30,9 +30,9 @@ namespace Derivco.Orniscient.Orleans
                         .ConfigureApplicationParts(
                             parts => parts
                                 .AddFromAppDomain()
-                                .AddApplicationPart(typeof(InactiveGrain).Assembly)
-                                .AddApplicationPart(typeof(TypeFilterGrain).Assembly)
-                                .AddApplicationPart(typeof(FilterGrain).Assembly)
+                                .AddApplicationPart(typeof(InactiveGrain).Assembly).WithReferences()
+                                .AddApplicationPart(typeof(TypeFilterGrain).Assembly).WithReferences()
+                                .AddApplicationPart(typeof(FilterGrain).Assembly).WithReferences()
                         )
                         .ConfigureLogging(logging => logging.AddConsole())
                         .Build();

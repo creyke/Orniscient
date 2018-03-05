@@ -21,7 +21,7 @@ namespace Derivco.Orniscient.Proxy.Grains
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
 
-        public DashboardCollectorGrain(ILogger logger, IConfiguration configuration)
+        public DashboardCollectorGrain(ILogger<DashboardCollectorGrain> logger, IConfiguration configuration)
         {
             _configuration = configuration;
             _logger = logger;

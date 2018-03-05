@@ -56,7 +56,7 @@
         orniscientConnection = new signalR.HubConnection("/orniscientHub");
 
         orniscientConnection.addMethod("grainActivationChanged", grainActivationChanged);
-
+        
         orniscientConnection.start()
             .then(() => init())
             .catch(err => {
@@ -211,11 +211,11 @@
 
     function grainActivationChanged(diffModel) {
         window.dispatchEvent(new CustomEvent('orniscientUpdated', { detail: diffModel.typeCounts }));
-        $.each(diffModel.RemovedGrains, function (index, grainData) {
+        $.each(diffModel.removedGrains, function (index, grainData) {
             deleteNodes(grainData, diffModel.summaryView);
         });
 
-        $.each(diffModel.NewGrains, function (index, grainData) {
+        $.each(diffModel.newGrains, function (index, grainData) {
             addToNodes(grainData, diffModel.summaryView);
         });
 
