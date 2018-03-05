@@ -28,7 +28,7 @@ namespace Derivco.Orniscient.Viewer.Observers
 
         public async Task<DiffModel> GetCurrentSnapshot(AppliedFilter filter, string grainSessionId)
         {
-            var clusterClient = await GrainClientMultiton.GetAndConnectClient(grainSessionId);
+            var clusterClient = GrainClientMultiton.GetClient(grainSessionId);
             var dashboardInstanceGrain = clusterClient.GetGrain<IDashboardInstanceGrain>(0);
             
             var diffmodel = await dashboardInstanceGrain.GetAll(filter);
@@ -62,7 +62,7 @@ namespace Derivco.Orniscient.Viewer.Observers
             {
                 if (!StreamHandles.ContainsKey(grainSessionId))
                 {
-                    var clusterClient = await GrainClientMultiton.GetAndConnectClient(grainSessionId);
+                    var clusterClient = GrainClientMultiton.GetClient(grainSessionId);
                     var streamprovider = clusterClient.GetStreamProvider(StreamKeys.StreamProvider);
                     var stream = streamprovider.GetStream<DiffModel>(Guid.Empty, StreamKeys.OrniscientClient);
                     StreamHandles.Add(grainSessionId, await stream.SubscribeAsync(this));

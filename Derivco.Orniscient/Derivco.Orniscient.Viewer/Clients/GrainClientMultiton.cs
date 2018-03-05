@@ -22,25 +22,6 @@ namespace Derivco.Orniscient.Viewer.Clients
             return _clients.ContainsKey(key) ? _clients[key] : null;
         }
 
-        public static async Task<IClusterClient> GetAndConnectClient(string key)
-        {
-            await _semaphoreSlim.WaitAsync();
-            var client = GetClient(key);
-            try
-            {
-                if (client != null && !client.IsInitialized)
-                {
-                    await client.Connect();
-                }
-            }
-            finally
-            {
-                _semaphoreSlim.Release();
-
-            }
-            return client;
-        }
-
         public static async Task<string> RegisterClient(string address, int port)
         {
             var grainClientKey = Guid.NewGuid().ToString();
