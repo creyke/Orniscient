@@ -28,7 +28,7 @@ namespace Derivco.Orniscient.Orleans
                     var gatewayUriList = gatewayEndPointList.Select(x => x.ToGatewayUri()).ToList();
                     var client = new ClientBuilder()
                         .ConfigureCluster(options => options.ClusterId = "orniscientcluster")
-                        .UseStaticClustering(options => ((List<Uri>)options.Gateways).AddRange(gatewayUriList))
+                        .UseStaticClustering(options => ((List<Uri>) options.Gateways).AddRange(gatewayUriList))
                         .ConfigureApplicationParts(
                             parts => parts
                                 .AddFromAppDomain()
@@ -52,6 +52,7 @@ namespace Derivco.Orniscient.Orleans
                     {
                         throw;
                     }
+
                     await Task.Delay(TimeSpan.FromSeconds(4));
                 }
             }

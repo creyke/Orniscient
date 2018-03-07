@@ -8,9 +8,9 @@ namespace Derivco.Orniscient.Viewer.Controllers
 {
     public class ConnectionController : Controller
     {
-        public Task<ViewResult> Index()
+        public ViewResult Index()
         {
-            return Task.FromResult(View());
+            return View();
         }
 
         [HttpPost]

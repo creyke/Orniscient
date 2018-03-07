@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
@@ -11,13 +14,16 @@ namespace Derivco.Orniscient.Viewer
             BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseUrls($"http://{IPAddress.Any}:8080")
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .Build();
+        }
     }
 }

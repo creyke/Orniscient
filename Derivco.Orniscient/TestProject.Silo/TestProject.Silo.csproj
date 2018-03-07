@@ -19,4 +19,13 @@
     <ProjectReference Include="..\TestProject.Grains\TestProject.Grains.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="orniscientClientConfiguration.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="orniscientHostConfiguration.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

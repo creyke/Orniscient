@@ -10,6 +10,7 @@ using Orleans.Runtime.Configuration;
 using TestProject.Grains;
 using Derivco.Orniscient.Proxy.Interceptors;
 using System.Net;
+using System.Net.Sockets;
 using Derivco.Orniscient.Proxy;
 
 namespace Derivco.Orniscient.Orleans
@@ -18,9 +19,17 @@ namespace Derivco.Orniscient.Orleans
     {
         public ISiloHost Build(IConfiguration configuration)
         {
+            string localIP;
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
+            }
+
             var siloPort = int.Parse(configuration["SiloPort"]);
             var gatewayPort = int.Parse(configuration["GatewayPort"]);
-            var siloAddress = IPAddress.Loopback;          
+            var siloAddress = IPAddress.Parse(localIP);          
             return new SiloHostBuilder()
                 .Configure(options => options.ClusterId = "orniscientcluster")
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
@@ -49,7 +58,6 @@ namespace Derivco.Orniscient.Orleans
                         services.AddSingleton(configuration);
                         services.AddIncomingGrainCallFilter<OrniscientFilterIncomingCallFilter>();
                     })
-
                 .Build();
         }
     }

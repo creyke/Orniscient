@@ -79,9 +79,9 @@ namespace Derivco.Orniscient.Viewer.Controllers
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                var claimsIdentity = (ClaimsIdentity)Thread.CurrentPrincipal;
-                var addressClaim = claimsIdentity.Claims.First(x => x.Type == AddressTypeName);
-                var portClaim = claimsIdentity.Claims.First(x => x.Type == PortTypeName);
+                var httpContextUser = HttpContext.User;
+                var addressClaim = httpContextUser.Claims.First(x => x.Type == AddressTypeName);
+                var portClaim = httpContextUser.Claims.First(x => x.Type == PortTypeName);
                 
                 if (addressClaim.Value != connection.Address ||
                     portClaim.Value != connection.Port.ToString())

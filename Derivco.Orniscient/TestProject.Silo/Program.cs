@@ -39,7 +39,7 @@ namespace TestProject.Silo
 
         private static async Task GrainClientWork(IConfigurationRoot configuration)
         {
-            IPAddress[] hostAddressList;
+           /* IPAddress[] hostAddressList;
             var hostAddress = configuration["HostAddress"];
             if (!IPAddress.TryParse(hostAddress, out var ipAddress))
             {
@@ -51,7 +51,18 @@ namespace TestProject.Silo
                 hostAddressList = new[] { ipAddress };
             }
             var ipEndPointList = hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(address => new IPEndPoint(address, int.Parse(configuration["Port"])));
-         
+            */
+
+            string localIP;
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
+            }
+
+            var ipEndPointList = new[] {new IPEndPoint( IPAddress.Parse(localIP), int.Parse(configuration["Port"])) };
+
             using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(ipEndPointList))
             {
                 try
