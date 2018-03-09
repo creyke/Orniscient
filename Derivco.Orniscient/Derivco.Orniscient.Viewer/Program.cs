@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Microsoft.AspNetCore;
@@ -16,14 +17,23 @@ namespace Derivco.Orniscient.Viewer
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseUrls($"http://{IPAddress.Any}:8080")
+            var isDocker = args != null && args.Contains("–host=0.0.0.0");
+
+            Console.WriteLine("IsDocker = " + isDocker);
+            
+            var webHost = WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseDefaultServiceProvider(options => options.ValidateScopes = false)
-                .Build();
+                .UseDefaultServiceProvider(options => options.ValidateScopes = false);
+
+            if (isDocker)
+            {
+                webHost.UseUrls($"http://{IPAddress.Any}:8080");
+            }
+
+            return webHost.Build();
         }
     }
 }

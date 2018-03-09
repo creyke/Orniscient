@@ -41,15 +41,12 @@ namespace Derivco.Orniscient.Viewer
             // Adds services required for using options.
             services.AddOptions();
 
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Environment.CurrentDirectory)).DisableAutomaticKeyGeneration();
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
             // Register the IConfiguration instance which MyOptions binds against.
             services.Configure<IConfiguration>(Configuration);
-
-
+            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSignalR();

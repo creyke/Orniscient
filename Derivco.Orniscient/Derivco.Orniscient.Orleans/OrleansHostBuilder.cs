@@ -17,19 +17,13 @@ namespace Derivco.Orniscient.Orleans
 {
     public class OrleansHostBuilder
     {
-        public ISiloHost Build(IConfiguration configuration)
+        public ISiloHost Build(IConfiguration configuration, bool isDocker)
         {
-            string localIP;
-            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
-            {
-                socket.Connect("8.8.8.8", 65530);
-                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
-                localIP = endPoint.Address.ToString();
-            }
-
             var siloPort = int.Parse(configuration["SiloPort"]);
             var gatewayPort = int.Parse(configuration["GatewayPort"]);
-            var siloAddress = IPAddress.Parse(localIP);          
+            var siloAddress = isDocker
+                ? IPAddressResolver.GetIPAddressForContainers()
+                : IPAddressResolver.GetIpAddressForIIS();
             return new SiloHostBuilder()
                 .Configure(options => options.ClusterId = "orniscientcluster")
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))

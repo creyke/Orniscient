@@ -15,10 +15,11 @@ namespace TestProject.Silo
     {
         public static void Main(string[] args)
         {
-            StartAndInvokeSiloHost().Wait();
+            var isDocker = args != null && args.Contains("docker");
+            StartAndInvokeSiloHost(isDocker).Wait();
         }
 
-        private static async Task StartAndInvokeSiloHost()
+        private static async Task StartAndInvokeSiloHost(bool isDocker)
         {
             var hostConfiguration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())  
@@ -31,37 +32,17 @@ namespace TestProject.Silo
                 .Build();
 
             await new OrleansHostBuilder()
-                .Build(hostConfiguration) 
+                .Build(hostConfiguration,isDocker) 
                 .StartAsync();
 
-            await GrainClientWork(clientConfiguration);
+            await GrainClientWork(clientConfiguration, isDocker);
         }
 
-        private static async Task GrainClientWork(IConfigurationRoot configuration)
+        private static async Task GrainClientWork(IConfigurationRoot configuration, bool isDocker)
         {
-           /* IPAddress[] hostAddressList;
-            var hostAddress = configuration["HostAddress"];
-            if (!IPAddress.TryParse(hostAddress, out var ipAddress))
-            {
-                var host = Dns.GetHostEntry(hostAddress);
-                hostAddressList = host.AddressList;
-            }
-            else
-            {
-                hostAddressList = new[] { ipAddress };
-            }
-            var ipEndPointList = hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(address => new IPEndPoint(address, int.Parse(configuration["Port"])));
-            */
+            var localIp = isDocker ? IPAddressResolver.GetIPAddressForContainers() : IPAddressResolver.GetIpAddressForIIS();
 
-            string localIP;
-            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
-            {
-                socket.Connect("8.8.8.8", 65530);
-                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
-                localIP = endPoint.Address.ToString();
-            }
-
-            var ipEndPointList = new[] {new IPEndPoint( IPAddress.Parse(localIP), int.Parse(configuration["Port"])) };
+            var ipEndPointList = new[] {new IPEndPoint(localIp, int.Parse(configuration["Port"])) };
 
             using (var grainClient = await new OrleansClientBuilder().CreateOrleansClientAsync(ipEndPointList))
             {
