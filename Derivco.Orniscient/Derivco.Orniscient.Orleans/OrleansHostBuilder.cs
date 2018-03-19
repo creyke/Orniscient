@@ -25,7 +25,7 @@ namespace Derivco.Orniscient.Orleans
                 ? IPAddressResolver.GetIPAddressForContainers()
                 : IPAddressResolver.GetIpAddressForIIS();
             return new SiloHostBuilder()
-                .Configure(options => options.ClusterId = "orniscientcluster")
+                .Configure<ClusterOptions>(options => options.ClusterId = "orniscientCluster")
                 .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
                 .ConfigureEndpoints(siloAddress, siloPort, gatewayPort)
                 .AddMemoryGrainStorageAsDefault()
@@ -46,11 +46,11 @@ namespace Derivco.Orniscient.Orleans
                     logging.AddConsole();
                     logging.SetMinimumLevel(LogLevel.Error);
                 })
+                .AddIncomingGrainCallFilter<OrniscientFilterIncomingCallFilter>()
                 .ConfigureServices(
                     services =>
                     {
                         services.AddSingleton(configuration);
-                        services.AddIncomingGrainCallFilter<OrniscientFilterIncomingCallFilter>();
                     })
                 .Build();
         }

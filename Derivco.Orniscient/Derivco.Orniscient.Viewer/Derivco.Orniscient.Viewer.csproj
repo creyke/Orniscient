@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha2-final" />
-    <PackageReference Include="Microsoft.Orleans.Core" Version="2.0.0-rc1" />
     <PackageReference Include="React.AspNet" Version="3.3.0" />
     <PackageReference Include="React.AspNet.Middleware" Version="3.3.0" />
     <PackageReference Include="React.Core" Version="3.3.0" />
