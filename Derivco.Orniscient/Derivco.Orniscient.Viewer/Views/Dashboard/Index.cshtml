@@ -2,24 +2,29 @@
     ViewBag.Title = "Orleans Orniscient Dashboard";
 }
 <div id="dashboard" class="container-fluid" style="height: 100%"></div>
-@Html.ActionLink("Disconnect", "Disconnect", "Dashboard", new { @class = "disconnect-btn btn btn-primary" }) )
-@section scripts{
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.signalR-2.2.0.min.js")"></script>
-    <script src="@Url.Content("~/signalr/hubs")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/orniscient.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/orniscientutils.js")"></script>
+<a href="@Url.Action("Disconnect", "Dashboard")" class="disconnect-btn btn btn-primary">Disconnect</a>
+@section scripts {
+    <script src="~/js/dash.min.js"></script>
+    <script src="~/js/SignalR/signalr-client-1.0.0-alpha2-final.js"></script>
 
-    <script src="@Url.Content("~/Scripts/react.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/react-dom.min.js")"></script>
+    <script src="~/js/Orniscient/orniscient.js"></script>
+    <script src="~/js/Orniscient/orniscientutils.js"></script>
 
-    <script src="~/Scripts/index.js"></script>
-    <script src="~/Scripts/react-input-autosize.js"></script>
-    <script src="~/Scripts/react-select.js" type="text/javascript"></script>
+    <script src="~/lib/react/react.js"></script>
+    <script src="~/lib/react/react-dom.js"></script>
 
-    <script src="@Url.Content("~/Scripts/Dashboard/DashboardTypeCounts.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/Dashboard/DashboardTypeFilter.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/Dashboard/DashboardTypeFilterList.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/Dashboard/DashboardGrainMethodParameters.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/Dashboard/DashboardGrainMethodReturnData.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/Dashboard/Dashboard.jsx")"></script>
+    <!--These JS files cannot be minified and bundled-->
+    <script src="~/js/Classnames/index.js"></script>
+    <script src="~/js/React-Input-Autosize/react-input-autosize.js"></script>
+    <script src="~/js/React-Select/react-select.js"></script>
+
+    <script src="~/js/Dashboard/DashboardTypeCounts.jsx"></script>
+    <script src="~/js/Dashboard/DashboardTypeFilter.jsx"></script>
+    <script src="~/js/Dashboard/DashboardTypeFilterList.jsx"></script>
+    <script src="~/js/Dashboard/DashboardGrainMethodParameters.jsx"></script>
+    <script src="~/js/Dashboard/DashboardGrainMethodReturnData.jsx"></script>
+    <script src="~/js/Dashboard/Dashboard.jsx"></script>
+    <!-- Render the code to initialise the component -->
+    @Html.ReactInitJavaScript();
 }
+

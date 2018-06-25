@@ -3,27 +3,32 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Derivco.Orniscient.Proxy;
-using Derivco.Orniscient.Proxy.Filters;
-using Derivco.Orniscient.Proxy.Grains;
+using Derivco.Orniscient.Proxy.Grains.Interfaces;
 using Derivco.Orniscient.Proxy.Grains.Models;
+using Derivco.Orniscient.Proxy.Grains.Models.Filters;
 using Derivco.Orniscient.Viewer.Clients;
 using Derivco.Orniscient.Viewer.Hubs;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Orleans.Streams;
 
 namespace Derivco.Orniscient.Viewer.Observers
 {
     public class OrniscientObserver : IAsyncObserver<DiffModel>
     {
-		private static readonly Lazy<OrniscientObserver> LazyInstance = new Lazy<OrniscientObserver>(() => new OrniscientObserver());
         private static readonly Dictionary<string,StreamSubscriptionHandle<DiffModel>> StreamHandles = new Dictionary<string,StreamSubscriptionHandle<DiffModel>>();
 
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
-		public static OrniscientObserver Instance => LazyInstance.Value;
+
+        private readonly IHubContext<OrniscientHub> _hubContext;
+
+        public OrniscientObserver(IHubContext<OrniscientHub> hubContext)
+        {
+            _hubContext = hubContext;
+        }
 
         public async Task<DiffModel> GetCurrentSnapshot(AppliedFilter filter, string grainSessionId)
         {
-            var clusterClient = await GrainClientMultiton.GetAndConnectClient(grainSessionId);
+            var clusterClient = GrainClientMultiton.GetClient(grainSessionId);
             var dashboardInstanceGrain = clusterClient.GetGrain<IDashboardInstanceGrain>(0);
             
             var diffmodel = await dashboardInstanceGrain.GetAll(filter);
@@ -35,7 +40,7 @@ namespace Derivco.Orniscient.Viewer.Observers
         {
             if (item != null)
             {
-                GlobalHost.ConnectionManager.GetHubContext<OrniscientHub>().Clients.Group("userGroup").grainActivationChanged(item);
+                _hubContext.Clients.Group("userGroup").InvokeAsync("grainActivationChanged", item);
             }
             return Task.CompletedTask;
         }
@@ -57,7 +62,7 @@ namespace Derivco.Orniscient.Viewer.Observers
             {
                 if (!StreamHandles.ContainsKey(grainSessionId))
                 {
-                    var clusterClient = await GrainClientMultiton.GetAndConnectClient(grainSessionId);
+                    var clusterClient = GrainClientMultiton.GetClient(grainSessionId);
                     var streamprovider = clusterClient.GetStreamProvider(StreamKeys.StreamProvider);
                     var stream = streamprovider.GetStream<DiffModel>(Guid.Empty, StreamKeys.OrniscientClient);
                     StreamHandles.Add(grainSessionId, await stream.SubscribeAsync(this));

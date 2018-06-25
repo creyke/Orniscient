@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Orleans.Runtime;
+using Microsoft.Extensions.Logging;
 
 namespace Derivco.Orniscient.Proxy
 {
@@ -13,7 +14,7 @@ namespace Derivco.Orniscient.Proxy
         /// </summary>
         /// <param name="assembly"></param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly,Logger logger)
+        public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly, ILogger logger)
         {
             try
             {

@@ -4,17 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Derivco Orniscient</title>
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/vis")
-    <link type="text/css" href="~/Content/react-select.css" rel="stylesheet"/>
-    @Scripts.Render("~/bundles/modernizr")
-    <link rel="icon" href="@Url.Content("~/Content/img/favicon.ico")">
+    <link rel="stylesheet" href="~/css/site.min.css" />
+    <link rel="icon" href="@Url.Content("~/favicon.ico")">
 </head>
 <body>
 <header class="navbar navbar-inverse" style="margin-bottom: 0px; height: 60px; border-radius: 0 0 4px 4px;">
     <div class="container navbar-header">
         <a class="navbar-brand brand" href="#">
-            <img alt="Brand" src="@Url.Content("~/Content/img/derivco.png")">
+            <img alt="Brand" src="@Url.Content("~/images/derivco.png")">
         </a>
         @Html.ActionLink("Orniscient", "Index", "Dashboard", new {area = ""}, new {@class = "navbar-brand heading"})
     </div>
@@ -22,9 +19,7 @@
 <div class="container-fluid" style="padding-bottom: 60px">
     @RenderBody()
 </div>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@Scripts.Render("~/bundles/vis")
+<script src="~/js/layout.min.js"></script>
 @Html.Partial("_GlobalUrls")
 @RenderSection("scripts", required: false)
 </body>

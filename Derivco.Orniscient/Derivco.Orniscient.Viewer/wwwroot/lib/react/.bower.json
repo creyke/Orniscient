@@ -1,0 +1,19 @@
+{
+  "name": "react",
+  "main": [
+    "react.js",
+    "react-dom.js"
+  ],
+  "ignore": [],
+  "homepage": "https://github.com/facebook/react-bower",
+  "version": "15.0.2",
+  "_release": "15.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v15.0.2",
+    "commit": "624b4f21e8bf11b7a102cd0855553d1a4279da3f"
+  },
+  "_source": "https://github.com/facebook/react-bower.git",
+  "_target": "v15.0.2",
+  "_originalSource": "react"
+}

@@ -1,0 +1,8 @@
+﻿{
+  "DashboardCollectorGrainTimerPeriods\"":"2, 6",
+  "TypeFilterGrainTimerPeriods": "0, 1" ,
+  "FirstGrainTimerPeriods": "0, 200" ,
+  "FirstGrainAddGrainsValue": "1",
+  "SiloPort": 11112,
+  "GatewayPort" :  40000 
+}

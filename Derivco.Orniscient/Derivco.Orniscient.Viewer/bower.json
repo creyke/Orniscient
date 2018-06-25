@@ -1,0 +1,12 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "react": "v15.0.2",
+    "respond": "1.4.2",
+    "vis": "v4.21.0",
+    "classnames": "v2.2.5",
+    "react-input-autosize": "v2.1.2",
+    "react-select": "v1.1.0"
+  }
+}

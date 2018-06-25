@@ -5,7 +5,7 @@ namespace Derivco.Orniscient.Proxy
 {
     public interface IOrniscientLinkMap
     {
-        OrniscientGrain GetLinkFromType(string type);
-        OrniscientGrain GetLinkFromType(Type type);
+        OrniscientGrainAttribute GetLinkFromType(string type);
+        OrniscientGrainAttribute GetLinkFromType(Type type);
     }
 }

@@ -1,6 +1,7 @@
-﻿@model Derivco.Orniscient.Viewer.Models.Connection.ConnectionInfo
+﻿@using Derivco.Orniscient.Viewer.Models.Connection
+@model ConnectionInfo
 
-<div class="container" class="container center-block" style="width:400px; margin-top: 20px;">
+<div class="container center-block" style="width:400px; margin-top: 20px;">
     @using (Html.BeginForm("Index", "Connection", FormMethod.Post))
     {
     <div class="form-group">

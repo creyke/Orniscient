@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Hosting;
+using Derivco.Orniscient.Orleans;
 using Orleans;
 using Orleans.Providers.Streams.SimpleMessageStream;
 using Orleans.Runtime.Configuration;
@@ -21,33 +22,15 @@ namespace Derivco.Orniscient.Viewer.Clients
             return _clients.ContainsKey(key) ? _clients[key] : null;
         }
 
-        public static async Task<IClusterClient> GetAndConnectClient(string key)
+        public static async Task<string> RegisterClient(string address, int port)
         {
-            await _semaphoreSlim.WaitAsync();
-            try
-            {
-                var client = GetClient(key);
-                if (client != null && !client.IsInitialized)
-                {
-                    await client.Connect();
-                }
-            }
-            finally
-            {
-                _semaphoreSlim.Release();
-
-            }
-            return _clients[key];
-        }
-
-        public static string RegisterClient(string address, int port, string guid = null)
-        {
-            var grainClientKey = string.IsNullOrWhiteSpace(guid) ? Guid.NewGuid().ToString() : guid;
+            var grainClientKey = Guid.NewGuid().ToString();
             _semaphoreSlim.Wait();
             try
             {
-                _clients.Add(grainClientKey,
-                    new ClientBuilder().UseConfiguration(GetConfiguration(address, port)).Build());
+                var ipEndPointList = GetIpAddressList(address).Select(ipAddress => new IPEndPoint(ipAddress, port));
+                var client = await new OrleansClientBuilder().CreateOrleansClientAsync(ipEndPointList);
+                _clients.Add(grainClientKey,client);
             }
             finally
             {
@@ -74,21 +57,19 @@ namespace Derivco.Orniscient.Viewer.Clients
             }
         }
 
-        private static ClientConfiguration GetConfiguration(string address, int port)
+        private static IEnumerable<IPAddress> GetIpAddressList(string address)
         {
-            var host = Dns.GetHostEntry(address);
-            var ipAddress = host.AddressList.Last();
-            var ipEndpoint = new IPEndPoint(ipAddress, port);
-
-            var configuration =
-                new ClientConfiguration
-                {
-                    GatewayProvider = ClientConfiguration.GatewayProviderType.Config
-                };
-            configuration.Gateways.Add(ipEndpoint);
-            configuration.RegisterStreamProvider<SimpleMessageStreamProvider>("OrniscientSMSProvider");
-
-            return configuration;
+            IPAddress[] hostAddressList;
+            if (!IPAddress.TryParse(address, out var ipAddress))
+            {
+                var host = Dns.GetHostEntry(address);
+                hostAddressList = host.AddressList;
+            }
+            else
+            {
+                hostAddressList = new[] { ipAddress };
+            }
+            return hostAddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork);
         }
     }
 }

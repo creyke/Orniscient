@@ -1,0 +1,6 @@
+.publish
+*.log
+bower.json
+example/dist
+logs
+src/__tests__

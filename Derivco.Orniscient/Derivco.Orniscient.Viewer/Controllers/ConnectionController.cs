@@ -1,26 +1,27 @@
 ﻿using System;
-using System.Linq;
-using Derivco.Orniscient.Viewer.Clients;
-using Derivco.Orniscient.Viewer.Models.Connection;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+using Derivco.Orniscient.Viewer.Models.Connection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Rest;
 
 namespace Derivco.Orniscient.Viewer.Controllers
 {
     public class ConnectionController : Controller
     {
-        public Task<ViewResult> Index()
+        public ViewResult Index()
         {
-            return Task.FromResult(View());
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(ConnectionInfo connection)
+        public ActionResult Index(ConnectionInfo connection)
         {
             try
             {
-                ValidateModel(connection);
+                if (!TryValidateModel(connection))
+                {
+                    throw new ValidationException();
+                }
 
                 return RedirectToAction("Index", "Dashboard", connection);
             }
